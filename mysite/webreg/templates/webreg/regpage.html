@@ -1,6 +1,9 @@
- <!DOCTYPE html>
-    <html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
+        <title>TermBill</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
         <title>TermBill</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
@@ -71,8 +74,11 @@
         padding: 10px;
         }
       </style>
-    </head>
-    <body>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+
+
     <nav class="navbar navbar-expand-lg navbar-dark navbar-inverse">
           <a class="navbar-brand {{ myhome_page }}" href="{% url 'My-Home' %}">ScarletXpress</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,11 +99,11 @@
               <li class="nav-item {{ compare_page }}">
                 <a class="nav-link" href="{% url 'compare' %}">Accessibility</a>
               </li>
-              
-              
+
+
           </ul>
           <ul class="navbar-nav ml-auto">
-              
+
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'change_password' %}">Update Password</a>
               </li>
@@ -108,51 +114,52 @@
           </div>
         </nav>
 
-        <h1 class="text-center sample">Welcome to Scarlet Xpress!</h1>
-        <div class="right">
-            <h2>Important Links</h2>
-        <a href="https://finservices.rutgers.edu/faaward/letter/awardLogin.htm">
-            <button>Finace Services</button>
-        </a>
+<body>
+<h1 class="text-center sample">
+    Registration
+</h1>
+</body>
 
-        <a href="https://quikpayasp.com/rutgers/qp/messageboard/index.do">
-            <button>Payment Plans</button>
-        </a>
+ <br>
 
-        <a href="http://studentabc.rutgers.edu/cashier-offices">
-            <button>Cashier Offices SABC</button>
-        </a>
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
 
+            <form method="get">
 
-        <a href="http://www.studentabc.rutgers.edu/student-account/how-to-login">
-            <button>Instruction</button>
-        </a>
+                <button class="btn btn-primary" type="submit">
+                    Search
+                </button>
+            </form>
         </div>
-        <br><br>
+    </div>
 
-        <script src="https://code.highcharts.com/highcharts.src.js"></script>
-    <script>
-      Highcharts.chart('container1', {{ chart|safe }});
-    </script>
-    <hr>
-    	
-            <ul>
-            <div class="row">
-                
-               
+    <div class="col-md">
+        My Courses ##Course selection placeholder
+    </div>
 
-                
-                </div>
-            </ul>
+</div>
 
-            
+    <br>
 
-            </div>
-        </div>
+<div class="row">
+    <div class="col-md">
+        		<div class="card card-body">
+			<table class="table table-sm">
+				<tr>
+					<th>Course Code</th>
+					<th>Section Number</th>
+					<th>Index</th>
+					<th>Instructors</th>
+					<th>Meeting Type</th>
+					<th>Status</th>
+                    <th>Meeting Times</th>
+				</tr>
+
+			</table>
+    </div>
+</div>
 
 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    </body>
-    </html>
+</html>
