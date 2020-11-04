@@ -18,11 +18,11 @@ from django.urls import path, include
 from users import views as user_views
 from myR import views as myviews
 from termbill import views as tbviews
+from webreg import views as wbviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', myviews.home, name='Home'),
     path('bill/', tbviews.bill, name='Bill'),
-    path('register/', include('webreg.urls')),
-
+    path('register/', wbviews.index, name='Index'),
 ]
