@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'termbill.apps.TermbillConfig',
     'myR.apps.MyrConfig',
     'users.apps.UsersConfig',
+    'webreg.apps.WebregConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

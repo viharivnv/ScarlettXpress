@@ -23,4 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', myviews.home, name='Home'),
     path('Bill', tbviews.bill, name='Bill'),
+    path('register/', include('webreg.urls')),
+
 ]
