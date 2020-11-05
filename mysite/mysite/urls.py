@@ -19,6 +19,7 @@ from users import views as user_views
 from myR import views as myviews
 from termbill import views as tbviews
 from webreg import views as wbviews
+from chat import views as chatviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
