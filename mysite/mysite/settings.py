@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'chat.apps.ChatConfig',
     'termbill.apps.TermbillConfig',
     'myR.apps.MyrConfig',
     'users.apps.UsersConfig',

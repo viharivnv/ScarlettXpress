@@ -25,4 +25,5 @@ urlpatterns = [
     path('', myviews.home, name='Home'),
     path('bill/', tbviews.bill, name='Bill'),
     path('register/', wbviews.index, name='Index'),
+    path('chat', chatviews.chat, name='Chat'),
 ]
