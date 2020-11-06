@@ -20,7 +20,6 @@ from myR import views as myviews
 from termbill import views as tbviews
 from webreg import views as wbviews
 from chat import views as chatviews
-from courseplanner import views as courseplannerviews
 
 
 urlpatterns = [
@@ -29,5 +28,4 @@ urlpatterns = [
     path('bill/', tbviews.bill, name='Bill'),
     path('register/', wbviews.index, name='Index'),
     path('chat', chatviews.chat, name='Chat'),
-    path('planner',courseplannerviews.planner, name='Planner')
 ]
