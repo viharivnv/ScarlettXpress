@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'courseplanner.apps.CourseplannerConfig',
     'chat.apps.ChatConfig',
     'termbill.apps.TermbillConfig',
     'myR.apps.MyrConfig',
