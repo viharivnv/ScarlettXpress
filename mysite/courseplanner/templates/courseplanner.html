@@ -15,22 +15,16 @@
         padding-bottom: 30px;
         background: rgba(0, 0, 0, 0.3);
       }
+       button {
 
-      tr{
-        height: 27px;
-        border:0 none;
-      }
-<!--       button {-->
-
-<!--         background-color: #FFD800;-->
-<!--         color: white;-->
-<!--         padding: 1px 1px;-->
-<!--         margin: 0 0;-->
-<!--         border: none;-->
-<!--         cursor: pointer;-->
-<!--         width: 5%;-->
-<!--         display: inline-block-->
-<!--            }-->
+         background-color: #FFD800;
+         color: white;
+         padding: 14px 20px;
+         margin: 8px 0;
+         border: none;
+         cursor: pointer;
+         width: 100%;
+            }
 
        button:hover {
          opacity: 0.8;
@@ -119,18 +113,23 @@
         <div class="container no-gutters">
             <div class="row">
                 <div class="col-sm">
+                    <h2>Semester:</h2>
+                    <select class="custom-select">
+                    <option value="1">sem1</option>
+                    <option value="2">sem2</option>
+                    </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm">
                     <h3 class="text-left">Added courses:</h3>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="selectedCourses">
                         <thead class="thead-light">
                             <th scope="col">Course Name</th>
-                            <th scope="col">Course Code</th>
+                            <th scope="col">Course Index</th>
                             <th scope="col" />
                         </thead>
-                        <tbody id="selectedCourses">
+                        <tbody>
 
                         </tbody>
                     </table>
@@ -139,10 +138,10 @@
             <div class="row">
                <div class="col-sm">
                    <h3 class="text-left" id="timetableType"></h3>
-                   <a onClick="switchView()" id="scheduleTypeLink"></a>
-                 <table class="table table-sm table-bordered">
+                   <a href="" id="scheduleTypeLink"></a>
+                 <table class="table table-sm table-bordered" id="timetable">
                      <thead class="thead-light">
-                         <th scope="col" width="5%"></th>
+                         <th scope="col" width="4%"></th>
                          <th scope="col" width="16%">Monday</th>
                          <th scope="col" width="16%">Tuesday</th>
                          <th scope="col" width="16%">Wednesday</th>
@@ -150,363 +149,29 @@
                          <th scope="col" width="16%">Friday</th>
                          <th scope="col" width="16%">Saturday</th>
                      </thead>
-                     <tbody id="timetable">
-                        <tr><td><small>8:00</small></td><td /><td /><td /><td /><td /><td /></tr>
+                     <tbody>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td><small>9:00</small></td><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td><small>10:00</small></td><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td><small>11:00</small></td><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td><small>12:00</small></td><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td><small>13:00</small></td><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td><small>14:00</small></td><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td><small>15:00</small></td><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td><small>16:00</small></td><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td><small>17:00</small></td><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td><small>18:00</small></td><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td><small>19:00</small></td><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td><small>20:00</small></td><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
-                        <tr><td><small>21:00</small></td><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
                      </tbody>
                  </table>
-                   <br><br>
-                   <button type="button" class="btn btn-light" id="auth" style="display: none;">Authorize Google Calendar</button>
-                   <button type="button" class="btn btn-light" id="importSchedule" style="display: none;">Import schedule to Google Calendar</button>
-                   <button type="button" class="btn btn-light" id="signout-button" style="display: none;">Sign Out</button>
                </div>
             </div>
             <div class="row">
                 <h3 class="text-left">Course Catalog</h3>
-               <table class="table table-bordered" id="courseCatalog">
-                   <thead class="thead-light">
-                       <th scope="col">Course Name</th>
-                       <th scope="col">Course Code</th>
-                       <th scope="col">Instructors</th>
-                       <th scope="col">Status</th>
-                       <th scope="col">Meeting Times</th>
-                       <th scope="col" />
-                   </thead>
-                   <tbody>
-                    {% for course in allCourses %}
-                    <tr>
-                    <td>{{ course.Title }}</td>
-                    <td>{{ course.courseID }}</td>
-                    <td>{{ course.Instructors }}</td>
-                    <td>{{ course.Status }}</td>
-                    <td>{{ course.MeetingTimes }}</td>
-                    <td><button id="{{ forloop.counter }}" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
-                    </tr>
-                    {% endfor %}
-                   </tbody>
-               </table>
+
             </div>
         </div>
 
-    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+        <script src="https://code.highcharts.com/highcharts.src.js"></script>
     <script>
       Highcharts.chart('container1', {{ chart|safe }});
-    </script>
-    <script type="text/javascript">
-      // Enter an API key from the Google API Console:
-      //   https://console.developers.google.com/apis/credentials
-      var apiKey = 'AIzaSyDxYI6m9eyqPGaRJgaypYy2uYRgcC0xNMI';
-
-      // Enter the API Discovery Docs that describes the APIs you want to
-      // access. In this example, we are accessing the People API, so we load
-      // Discovery Doc found here: https://developers.google.com/people/api/rest/
-      var discoveryDocs = ["https://people.googleapis.com/$discovery/rest?version=v1", "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-
-      // Enter a client ID for a web application from the Google API Console:
-      //   https://console.developers.google.com/apis/credentials?project=_
-      // In your API Console project, add a JavaScript origin that corresponds
-      //   to the domain where you will be running the script.
-      var clientId = '419703717424-bli6tnok60kqqfgqjjtsbns7jac5v81v.apps.googleusercontent.com';
-
-      // Enter one or more authorization scopes. Refer to the documentation for
-      // the API or https://developers.google.com/people/v1/how-tos/authorizing
-      // for details.
-      var scopes = 'profile https://www.googleapis.com/auth/calendar';
-
-      var importButton = document.getElementById('importSchedule');
-      var authorizeButton = document.getElementById('auth');
-      var signoutButton = document.getElementById('signout-button');
-
-      function handleClientLoad() {
-        // Load the API client and auth2 library
-        gapi.load('client:auth2', initClient);
-      }
-
-      function initClient() {
-        gapi.client.init({
-            apiKey: apiKey,
-            discoveryDocs: discoveryDocs,
-            clientId: clientId,
-            scope: scopes
-        }).then(function () {
-          // Listen for sign-in state changes.
-          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-
-          // Handle the initial sign-in state.
-          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-
-          authorizeButton.onclick = handleAuthClick;
-          signoutButton.onclick = handleSignoutClick;
-        });
-      }
-
-      function updateSigninStatus(isSignedIn) {
-        if (isSignedIn) {
-          authorizeButton.style.display = 'none';
-          signoutButton.style.display = 'block';
-          importButton.style.display = 'block';
-          makeApiCall();
-        } else {
-          authorizeButton.style.display = 'block';
-          importButton.style.display = 'none';
-          signoutButton.style.display = 'none';
-        }
-      }
-
-      function handleAuthClick(event) {
-        gapi.auth2.getAuthInstance().signIn();
-      }
-
-      function handleSignoutClick(event) {
-        gapi.auth2.getAuthInstance().signOut();
-      }
-
-      function handleImportClick(event) {
-        var event = {
-            'summary': 'Example Class (Computer Architecture Lab)',
-            'location': 'Busch - ECE 105',
-            'description': 'An example Class',
-            'start': {
-            'dateTime': '2020-12-10T09:00:00-07:00',
-            'timeZone': 'America/New_York'
-            },
-            'end': {
-           'dateTime': '2020-12-10T12:00:00-07:00',
-           'timeZone': 'America/New_York'
-            },
-            'recurrence': [
-            ],
-            'attendees': [
-                {'email': 'lpage@example.com'},
-                {'email': 'sbrin@example.com'}
-            ],
-            'reminders': {
-                'useDefault': false,
-                'overrides': [
-                    {'method': 'email', 'minutes': 24 * 60},
-                    {'method': 'popup', 'minutes': 10}
-                ]
-            }
-        };
-
-        var request = gapi.client.calendar.events.insert({
-        'calendarId': 'primary',
-        'resource': event
-        });
-
-        request.execute(function(event) {
-        appendPre('Event created: ' + event.htmlLink);
-        });
-      }
-
-      // Load the API and make an API call.  Display the results on the screen.
-      function makeApiCall() {
-        gapi.client.people.people.get({
-          'resourceName': 'people/me',
-          'requestMask.includeField': 'person.names'
-        }).then(function(resp) {
-          var p = document.createElement('p');
-          var name = resp.result.names[0].givenName;
-          p.appendChild(document.createTextNode('Hello, '+name+'!'));
-          document.getElementById('content').appendChild(p);
-        });
-      }
-    </script>
-    <script async defer src="https://apis.google.com/js/api.js"
-      onload="this.onload=function(){};handleClientLoad()"
-      onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
-
-    <script type="text/javascript">
-        class Course{
-            constructor(name, code, instructor, time){
-                this.name = name;
-                this.code = code;
-                this.instructor = instructor;
-                this.time = time;
-            }
-        }
-
-        var userCourses = new Array();
-        var savedSchedules = new Array();
-        var allSchedules = new Array();
-
-        function addCourse(buttonID){
-            var allCourses = document.getElementById("courseCatalog");
-            var addedCourses = document.getElementById("selectedCourses");
-            for(var i = 0; i < addedCourses.rows.length; i++){
-                if(addedCourses.rows[i].cells[0].innerHTML == allCourses.rows[buttonID].cells[0].innerHTML){
-                    alert("Course already added");
-                    return;
-                }
-            }
-            var newCourse = addedCourses.insertRow();
-            var cell1 = newCourse.insertCell(0);
-            var cell2 = newCourse.insertCell(1);
-            var cell3 = newCourse.insertCell(2);
-            cell1.innerHTML = allCourses.rows[buttonID].cells[0].innerHTML;
-            cell2.innerHTML = allCourses.rows[buttonID].cells[1].innerHTML;
-            delButtonID = allCourses.rows[buttonID].cells[0].innerHTML;
-            cell3.innerHTML = '<button type="button" class="btn btn-danger" id="' + delButtonID + '" onClick="deleteCourse(this.id)">Delete</button>';
-            userCourses.push(new Course(cell1.innerHTML, cell2.innerHTML, allCourses.rows[buttonID].cells[2].innerHTML, allCourses.rows[buttonID].cells[4].innerHTML));
-            generateSchedules(userCourses);
-        }
-
-        function deleteCourse(buttonID){
-            var addedCourses = document.getElementById("selectedCourses");
-            for(var i = 0; i < addedCourses.rows.length; i++){
-                if(addedCourses.rows[i].cells[0].innerHTML == buttonID){
-                    addedCourses.deleteRow(i);
-                    userCourses.splice(i,1);
-                    generateSchedules(userCourses);
-                    console.log(userCourses);
-                    return;
-                }
-            }
-        }
-
-        function generateSchedules(newSchedule){
-            var timetable = document.getElementById("timetable");
-
-            for(var i = 0; i < timetable.rows.length; i++){
-                for(var j = 0; j < timetable.rows[i].cells.length; j++){
-                    if(j != 0){
-                        timetable.rows[i].cells[j].innerHTML = "";
-                    }
-                    timetable.rows[i].cells[j].style.backgroundColor = "transparent";
-                }
-            }
-
-            for(var i = 0; i < userCourses.length; i++){
-                var currCourse = userCourses[i];
-                var timeStr = currCourse.time.trim();
-                var times = timeStr.split("\n");
-
-                for(var j = 0; j < times.length; j++){
-                    times[j] = times[j].trim();
-                    var dayStr = times[j].split("\t")[0];
-                    var time = times[j].split("\t")[1];
-                    console.log(dayStr);
-                    console.log(time);
-                    var day = 0;
-                    switch(dayStr){
-                        case "M":
-                            day = 1;
-                            break;
-                        case "T":
-                            day = 2;
-                            break;
-                        case "W":
-                            day = 3;
-                            break;
-                        case "TH":
-                            day = 4;
-                            break;
-                        case "F":
-                            day = 5;
-                            break;
-                        case "S":
-                            day = 6;
-                            break;
-                    }
-                    var startTimeStr = time.split("-")[0];
-                    var endTimeStr = time.split("-")[1];
-                    var startTime = parseInt(startTimeStr.split(":")[0]);
-                    var endTime = parseInt(endTimeStr.split(":")[0]);
-
-                    if(endTimeStr.substring(endTimeStr.length - 2, endTimeStr.length) == 'PM'){
-                        if(startTimeStr.substring(0,2) != '12')
-                            startTime += 12;
-                        endTime += 12;
-                    }
-                    startTime = (startTime - 8) * 3;
-                    endTime = (endTime - 8) * 3;
-                    console.log(startTimeStr);
-                    console.log(endTimeStr);
-
-                    var startTimeMin = parseInt(startTimeStr.split(":")[1]);
-                    var endTimeMin = parseInt(endTimeStr.split(":")[1]);
-
-                    if(startTimeMin >= 20){
-                        if(startTimeMin < 40){
-                            startTime += 1;
-                        }else{
-                            startTime += 2;
-                        }
-                    }
-
-                    if(endTimeMin >= 20){
-                        if(endTimeMin < 40){
-                            endTime += 1;
-                        }else{
-                            endTime += 2;
-                        }
-                    }
-
-                    console.log(startTime);
-                    console.log(endTime);
-                    for(var k = startTime; k <= endTime; k++){
-                        if(k == startTime){
-                            timetable.rows[k].cells[day].innerHTML = currCourse.name;
-                            timetable.rows[k].cells[day].style.fontSize = 'small';
-                        }
-                        timetable.rows[k].cells[day].style.backgroundColor = "lightskyblue";
-                    }
-                }
-            }
-        }
-
-        function switchView(){
-
-        }
-
-        function previousSchedule(){
-
-        }
-
-        function nextSchedule(){
-
-        }
     </script>
     <hr>
     	
