@@ -70,6 +70,13 @@
         border: 3px solid red;
         padding: 10px;
         }
+       .left {
+        position: absolute;
+        right: 900px;
+        width: 500px;
+        border: 3px solid red;
+        padding: 10px;
+        }
       </style>
     </head>
     <body>
@@ -78,7 +85,7 @@
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-
+          
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
@@ -129,7 +136,43 @@
         </a>
         </div>
         <br><br>
-
+        <style>
+          table,tr, td {
+          border: 1px solid black;
+        }
+      </style>
+        <div class="left">
+            <h2>Term Bill</h2>
+          <table style= "width:50%">
+          <tr>
+            <th>COMPUTER FEE</th>
+            <td>$171.00</td>
+          </tr>
+          <tr>
+            <th>PIRG</th>
+            <td>$11.20</td>
+          </tr>
+          <tr>
+            <th>CAMPUS FEE</th>
+            <td>$1144.95</td>
+          </tr>
+          <tr>
+            <th>SCHOOL FEE</th>
+            <td>$104.75</td>
+          </tr>
+        <tr>
+          <th>TUITION</th>
+          <td>$7002.00</td>
+        </tr>
+        <tr>
+          <th>DIGITAL BOOK CHARGE</th>
+          <td>$119.99</td>
+        </tr>
+        <tr>
+          <th>MISC</th>
+          <td>$75.00</td>
+        </tr>
+        </table>
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
     <script>
       Highcharts.chart('container1', {{ chart|safe }});
