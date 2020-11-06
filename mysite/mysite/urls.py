@@ -22,6 +22,7 @@ from webreg import views as wbviews
 from chat import views as chatviews
 from django.contrib.auth import views as auth_views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', myviews.home, name='Home'),
