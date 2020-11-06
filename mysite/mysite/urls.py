@@ -20,6 +20,7 @@ from myR import views as myviews
 from termbill import views as tbviews
 from webreg import views as wbviews
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', myviews.home, name='Home'),
