@@ -1,11 +1,11 @@
- <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Chat</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-      <style type="text/css">
-           body {
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <style type="text/css">
+      body {
         background: url(https://i.imgur.com/ePYJn6n.png);
         background-size:cover;
         background-repeat: no-repeat;
@@ -15,16 +15,27 @@
         padding-bottom: 30px;
         background: rgba(0, 0, 0, 0.3);
       }
-       button {
-
-         background-color: #FFD800;
+       button.convo {
+         background-color: #FF8888;
          color: white;
          padding: 14px 20px;
          margin: 8px 0;
          border: none;
          cursor: pointer;
          width: 100%;
-            }
+         height: 75px;
+       }
+       button.search {
+         background-color: #FF8888;
+         color: white;
+         padding: 9px 20px;
+         margin: 8px 0;
+         border: none;
+         cursor: pointer;
+         width: 20%;
+         right: 0;
+         height = 100%;
+       }
 
        button:hover {
          opacity: 0.8;
@@ -61,101 +72,159 @@
         width: 300px;
         height: 100px;
         border: 1px solid blue;
+        }
+      .conversations {
+        position: absolute;
+        left: 0;
+        width:34%;
+        top: 173px;
+        bottom: 0;
+        border: 3px solid red;
+        padding: 5px;
+        font: 24px/36px sans-serif;
+        overflow-y: scroll;
+        object-fit: fill;
+      }
+      .chat {
+        position: absolute;
+        right: 0%;
+        width:66%;
+        top: 173px;
+        bottom: 35px;
+        border: 3px solid red;
+        padding: 5px;
+        font: 24px/36px sans-serif;
+        overflow-y: scroll;
+        object-fit: fill;
+      }
+      ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+      }
+      ::-webkit-scrollbar-track {
+        border: 1px solid red;
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: red;
+        border-radius: 10px;
+      }
+        ::-webkit-scrollbar-thumb:hover {
+        background: maroon;
+      }
+      input.search[type=text] {
+        left: 0;
+        width: 80%;
+        height: 100%;
+        border: 2px solid #ddd;
+        font-size: 16px;
+      }
+      input.message[type=text] {
+        position: absolute;
+        right: 0;
+        width: 66%;
+        bottom: 2px;
+        border: 2px solid #ddd;
+        font-size: 16px;
+      }
+
+      .wrapper {
+          position: absolute;
+          float: left;
+          top: 123px;
+          height: 40px; /* needs to be defined in this case so that the children know what they should be 100% height of */
+          width: 34%;
+      }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-inverse">
+    <a class="navbar-brand {{ myhome_page }}" href="{% url 'Home' %}">ScarletXpress</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item {{ predict_page }}">
+                <a class="nav-link" href="">Course Planner<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item {{ predict_page }}">
+                <a class="nav-link" href="">Course Registration<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item {{ analysis_page }}">
+                <a class="nav-link" href="">Term Bill</a>
+            </li>
+            <li class="nav-item {{ analysis_page }}">
+                <a class="nav-link" href="{% url 'chat' %}">Chat</a>
+            </li>
+            <li class="nav-item {{ compare_page }}">
+                <a class="nav-link" href="">Accessibility</a>
+            </li>
+
+
+        </ul>
+        <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item">
+                <a class="nav-link" href="">Update Password</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<h1 class="text-center sample">Course Chat</h1>
+<div class="wrapper">
+      <input class="search" type="text" id="search" placeholder="Search.."><button class="search" onclick="addChat(event)">Search</button>
+</div>
+<div class="conversations" id="conversations">
+</div>
+<div class="chat"></div>
+<form>
+  <input class="message" type="text" id="message" placeholder="Message">
+</form>
+<br><br>
+
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+      Highcharts.chart('container1', {{ chart|safe }});
+
+</script>
+<hr>
+
+<ul>
+    <div class="row">
+
+
+    </div>
+</ul>
+
+
+</div>
+</div>
+
+<script>
+function updateConversations(evt){
+  var button = document.createElement("BUTTON");
+  button.className = "convo";
+  let participants = document.getElementById("search").value;
+  button.innerHTML = participants;                   // Insert text
+  document.getElementById("conversations").appendChild(button);
+  document.getElementById("search").value = "";
 }
 
-      .right {
-        position: absolute;
-        right: 0px;
-        width: 300px;
-        border: 3px solid red;
-        padding: 10px;
-        }
-      </style>
-    </head>
-    <body>
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-inverse">
-          <a class="navbar-brand {{ myhome_page }}" href="{% url 'Home' %}">ScarletXpress</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item {{ predict_page }}">
-                <a class="nav-link" href="">Course Planner<span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item {{ predict_page }}">
-                <a class="nav-link" href="">Course Registration<span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item {{ analysis_page }}">
-                <a class="nav-link" href="">Term Bill</a>
-              </li>
-              <li class="nav-item {{ analysis_page }}">
-                <a class="nav-link" href="{% url 'chat' %}">Chat</a>
-              </li>
-              <li class="nav-item {{ compare_page }}">
-                <a class="nav-link" href="">Accessibility</a>
-              </li>
-
-
-          </ul>
-          <ul class="navbar-nav ml-auto">
-
-              <li class="nav-item">
-                <a class="nav-link" href="">Update Password</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="">Logout</a>
-              </li>
-          </ul>
-          </div>
-        </nav>
-
-        <h1 class="text-center sample">Welcome to Scarlet Xpress!</h1>
-        <div class="right">
-            <h2>Important Links</h2>
-        <a href="https://finservices.rutgers.edu/faaward/letter/awardLogin.htm">
-            <button>Finace Services</button>
-        </a>
-
-        <a href="https://quikpayasp.com/rutgers/qp/messageboard/index.do">
-            <button>Payment Plans</button>
-        </a>
-
-        <a href="http://studentabc.rutgers.edu/cashier-offices">
-            <button>Cashier Offices SABC</button>
-        </a>
-
-
-        <a href="http://www.studentabc.rutgers.edu/student-account/how-to-login">
-            <button>Instruction</button>
-        </a>
-        </div>
-        <br><br>
-
-        <script src="https://code.highcharts.com/highcharts.src.js"></script>
-    <script>
-      Highcharts.chart('container1', {{ chart|safe }});
-    </script>
-    <hr>
-
-            <ul>
-            <div class="row">
-
-
-
-
-                </div>
-            </ul>
-
-
-
-            </div>
-        </div>
-
-
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    </body>
-    </html>
+function updateMessages(evt){
+  var button = document.createElement("BUTTON");
+  button.className = "convo";
+  let participants = document.getElementById("search").value;
+  button.innerHTML = participants;                   // Insert text
+  document.getElementById("conversations").appendChild(button);
+  document.getElementById("search").value = "";
+}
+</script>
+</body>
+</html>
