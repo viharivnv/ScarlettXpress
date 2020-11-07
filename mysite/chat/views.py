@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.template import loader
+from .models import Conversation
 
 def chat(request):
     if not request.user.is_authenticated:
-        return render(request, 'users/login.html')
-    return render(request, 'chat/chat.html')
+        return loader.render(request, 'users/login.html')
+    return loader.render(request, 'chat/chat.html')
