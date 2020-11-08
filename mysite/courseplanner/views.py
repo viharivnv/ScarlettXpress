@@ -1,17 +1,16 @@
-import pymongo
+from pymongo import MongoClient
 from django.shortcuts import render
 from .models import Course, Student
 
-coursesList = []
-newSchedule = []
-
 def planner(request):
-    myclient = pymongo.mongo_client("mongodb://localhost:27017/")
+    myclient = MongoClient('localhost', 27017)
     mydb = myclient["RUDB"]
     mycol = mydb["courseplanner_courses"]
     context = {}
     i = 1
     for doc in mycol.find():
         context["course"+i] = doc
+        i += 1
+    context["totalCourses"] = i
 
-    return render(request, 'courseplanner/courseplanner.html')
+    return render(request, 'courseplanner.html', context)
