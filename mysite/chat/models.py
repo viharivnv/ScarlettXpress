@@ -25,11 +25,11 @@ class Course(models.Model):
 
 
 class Student(models.Model):
-    netid = models.CharField(max_length=10, default=None)
+    netid = models.CharField(max_length=10, blank=True, null=True)
     RUID = models.IntegerField(blank=True, null=True)
   # Password = models.CharField(max_length=20)
-    FirstName = models.CharField(max_length=50,blank=True, null=True)
-    LastName = models.CharField(max_length=50,blank=True, null=True)
+    FirstName = models.CharField(max_length=50, blank=True, null=True)
+    LastName = models.CharField(max_length=50, blank=True, null=True)
     DegreeLevel = models.CharField(max_length=50,blank=True, null=True)
     CreditsRegistered = models.IntegerField(blank=True, null=True)
     CreditsTaken = models.IntegerField(blank=True, null=True)
