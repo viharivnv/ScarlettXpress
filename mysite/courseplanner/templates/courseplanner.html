@@ -130,7 +130,13 @@
                             <th scope="col" />
                         </thead>
                         <tbody>
-
+                        {% for course in newSchedule %}
+                            <td>{{ course.Title }}</td>
+                            <td>{{ course.Index }}</td>
+                        {% empty %}
+                            <td>No Courses Added</td>
+                            <td>No Courses Added</td>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -166,6 +172,16 @@
             </div>
             <div class="row">
                 <h3 class="text-left">Course Catalog</h3>
+                <table class="table table-bordered" id="courseCatalog">
+                    <thead class="thead-light">
+                    <th scope="col">Course Name</th>
+                    <th scope="col">Course Code</th>
+                    <th scope="col">Instructors</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Meeting Times</th>
+                    </thead>
+                    {% for course in %}
+                </table>
             </div>
         </div>
 

@@ -22,6 +22,7 @@ from webreg import views as wbviews
 from chat import views as chatviews
 from courseplanner import views as courseplannerviews
 from courseplanner import views as courseplannerviews
+from courseplanner import views as courseplannerviews
 from django.contrib.auth import views as auth_views
 
 
@@ -33,6 +34,7 @@ urlpatterns = [
     path('bill/', tbviews.bill, name='Bill'),
     path('register/', wbviews.index, name='Index'),
     path('chat', chatviews.chat, name='Chat'),
+    path('courseplanner/', courseplannerviews.planner, name='Planner')
     path('planner',courseplannerviews.planner, name='Planner')
     path('chat/', chatviews.chat, name='Chat'),
     path('chat/context', chatviews.getcontext, name='ChatContext'),
