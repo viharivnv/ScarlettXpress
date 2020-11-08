@@ -16,7 +16,6 @@ class Course(models.Model):
 
 
 class Student(models.Model):
-    Student = models.CharField(max_length=50)
     netid = models.IntegerField(max_length=6)
     RUID = models.IntegerField(max_length=50)
   # Password = models.CharField(max_length=20)
