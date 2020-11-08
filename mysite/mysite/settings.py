@@ -78,15 +78,25 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-
+'''
+ DATABASES = {
+m
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'RUDB',
 
     }
 }
-
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'rutgers',
+        'CLIENT': {
+           'host': 'localhost:27017',
+        }
+    }
+}
 
 
 # Password validation
