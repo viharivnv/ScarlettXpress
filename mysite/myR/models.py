@@ -7,7 +7,7 @@ class Course(models.Model):
     Index=models.IntegerField(max_length=5)
     Title = models.CharField(max_length=500,blank=True, null=True)
     Instructors = models.CharField(max_length=500)
-    Credits = models.IntegerField(blank=True, null=True)
+    courseCredits = models.IntegerField(blank=True, null=True)
     MeetingType = models.CharField(max_length=100,blank=True, null=True)
     Status = models.BooleanField(default=True)
     Enrolled = models.IntegerField(blank=True, null=True)
