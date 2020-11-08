@@ -1,27 +1,30 @@
-from django.db import models
-
+# from django.db import models
+from djongo import models
 from django.contrib.auth.models import User
 
 class Course(models.Model):
-    Index=models.IntegerField()
     FullCode = models.CharField(max_length=10, primary_key=True)
+    Index=models.IntegerField(max_length=5)
+    Title = models.CharField(max_length=500)
     Instructors = models.CharField(max_length=500)
-    Status = models.CharField(max_length=10)
+    Credits = models.IntegerField(max_length=3)
+    MeetingType = models.CharField(max_length=100)
+    Status = models.BooleanField(default=True)
+    Enrolled = models.IntegerField(max_length=5)
+    Capacity = models.IntegerField(max_length=5)
     MeetingTimes = models.CharField(max_length=100)
-    Capacity=models.IntegerField()
-    Enrolled = models.IntegerField()
 
-    class Meta:
-        managed = False
-        db_table = 'course'
 
 class Student(models.Model):
     Student = models.CharField(max_length=50)
-    netId = models.IntegerField()
-    ruId = models.IntegerField()
-    credits = models.IntegerField()
-    gradelevel =  models.CharField(max_length=50)
-    CoursesTaken =  models.CharField(max_length=1000)
-    class Meta:
-        managed = False
-        db_table = 'students'
+    netid = models.IntegerField(max_length=6)
+    RUID = models.IntegerField(max_length=50)
+  # Password = models.CharField(max_length=20)
+    FirstName = models.CharField(max_length=50)
+    LastName = models.CharField(max_length=50)
+    DegreeLevel = models.CharField(max_length=50)
+    CreditsRegistered = models.IntegerField(max_length=15)
+    CreditsTaken = models.IntegerField(max_length=15)
+    CoursesRegistered = models.IntegerField(max_length=15)
+    CoursesTaken =  models.IntegerField(max_length=15)
+
