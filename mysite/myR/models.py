@@ -13,6 +13,8 @@ class Course(models.Model):
     Enrolled = models.IntegerField(max_length=5)
     Capacity = models.IntegerField(max_length=5)
     MeetingTimes = models.CharField(max_length=100)
+    def __str__(self):
+        return self.Title
 
 
 class Student(models.Model):
@@ -27,4 +29,6 @@ class Student(models.Model):
     CreditsTaken = models.IntegerField(max_length=15)
     CoursesRegistered = models.IntegerField(max_length=15)
     CoursesTaken =  models.IntegerField(max_length=15)
+    def __str__(self):
+        return self.FirstName + " " + self.LastName
 
