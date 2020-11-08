@@ -78,16 +78,19 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
 
+DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'RUDB',
-
+        "CLIENT": {
+           "name": 'RUDB',
+           "host": 'mongodb+srv://sudarshan55:Gayu%402011@cluster0.ldcyz.mongodb.net/test?authSource=admin&replicaSet=atlas-8irq33-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true',
+           "username": 'sudarshan55',
+           "password": 'Gayu@2011',
+           "authMechanism": 'SCRAM-SHA-1',
+        },
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

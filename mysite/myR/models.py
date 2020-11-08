@@ -1,27 +1,33 @@
-from django.db import models
-
+# from django.db import models
+from djongo import models
 from django.contrib.auth.models import User
 
 class Course(models.Model):
-    Index=models.IntegerField()
     FullCode = models.CharField(max_length=10, primary_key=True)
+    Index = models.IntegerField()
+    Title = models.CharField(max_length=500, blank=True, null=True)
     Instructors = models.CharField(max_length=500)
-    Status = models.CharField(max_length=10)
+    Credits = models.IntegerField(default=0)
+    MeetingType = models.CharField(max_length=100, blank=True, null=True)
+    Status = models.BooleanField(default=True)
+    Enrolled = models.IntegerField(blank=True, null=True)
+    Capacity = models.IntegerField(blank=True, null=True)
     MeetingTimes = models.CharField(max_length=100)
-    Capacity=models.IntegerField()
-    Enrolled = models.IntegerField()
+    def __str__(self):
+        return self.Title
 
-    class Meta:
-        managed = False
-        db_table = 'course'
 
 class Student(models.Model):
-    Student = models.CharField(max_length=50)
-    netId = models.IntegerField()
-    ruId = models.IntegerField()
-    credits = models.IntegerField()
-    gradelevel =  models.CharField(max_length=50)
-    CoursesTaken =  models.CharField(max_length=1000)
-    class Meta:
-        managed = False
-        db_table = 'students'
+    netid = models.IntegerField(blank=True, null=True)
+    RUID = models.IntegerField(blank=True, null=True)
+  # Password = models.CharField(max_length=20)
+    FirstName = models.CharField(max_length=50,blank=True, null=True)
+    LastName = models.CharField(max_length=50,blank=True, null=True)
+    DegreeLevel = models.CharField(max_length=50,blank=True, null=True)
+    CreditsRegistered = models.IntegerField(blank=True, null=True)
+    CreditsTaken = models.IntegerField(blank=True, null=True)
+    CoursesRegistered = models.IntegerField(blank=True, null=True)
+    CoursesTaken =  models.IntegerField(blank=True, null=True)
+    def __str__(self):
+        return self.FirstName + " " + self.LastName
+
