@@ -85,7 +85,7 @@
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          
+
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
@@ -100,11 +100,11 @@
               <li class="nav-item">
                 <a class="nav-link" href="">Accessibility</a>
               </li>
-              
-              
+
+
           </ul>
           <ul class="navbar-nav ml-auto">
-              
+
               <li class="nav-item">
                 <a class="nav-link" href="">Update Password</a>
               </li>
@@ -162,7 +162,7 @@
           </tr>
         <tr>
           <th>TUITION</th>
-          <td>${{data.credits}}</td>
+          <td>${% for d in data %} {{d.credits}} {% endfor %}</td>
         </tr>
         <tr>
           <th>DIGITAL BOOK CHARGE</th>
@@ -178,17 +178,17 @@
       Highcharts.chart('container1', {{ chart|safe }});
     </script>
     <hr>
-    	
+
             <ul>
             <div class="row">
-                
-               
 
-                
+
+
+
                 </div>
             </ul>
 
-            
+
 
             </div>
         </div>
