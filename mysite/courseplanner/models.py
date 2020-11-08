@@ -3,13 +3,14 @@ from django.db import models
 # Create your models here.
 
 class Course(models.Model):
-    Index=models.IntegerField()
+    Title = models.CharField(max_length=200, default='COURSE_NAME')
     FullCode = models.CharField(max_length=10, primary_key=True)
     Instructors = models.CharField(max_length=500)
     Status = models.CharField(max_length=10)
     MeetingTimes = models.CharField(max_length=100)
-    Capacity=models.IntegerField()
+    Capacity = models.IntegerField()
     Enrolled = models.IntegerField()
+    Semester = models.CharField(max_length=6)
 
     class Meta:
         managed = True

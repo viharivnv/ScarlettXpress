@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Course(models.Model):
-    Index=models.IntegerField()
+    Index = models.IntegerField()
     FullCode = models.CharField(max_length=10, primary_key=True)
     Instructors = models.CharField(max_length=500)
     Status = models.CharField(max_length=10)
