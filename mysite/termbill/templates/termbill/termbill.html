@@ -1,3 +1,25 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@angelaShaw 
+fareselkhouli
+/
+ScarletXpress
+4
+0
+2
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+
  <!DOCTYPE html>
     <html>
     <head>
@@ -72,10 +94,17 @@
         }
        .left {
         position: absolute;
-        right: 900px;
-        width: 500px;
+        right: 500px;
+        width: 300px;
         border: 3px solid red;
         padding: 10px;
+        }
+        .middle{
+          position: absolute;
+          right: 500px;
+          width: 500px;
+          border: 3px solid red;
+          padding: 10px;
         }
       </style>
     </head>
@@ -141,6 +170,22 @@
           border: 1px solid black;
         }
       </style>
+      <div class="middle">
+           <h2>Current Balance: $8629.89</h2>
+          <table style= "width:50%">
+          <tr>
+            <th>Total Charges</th>
+            <td>$8629.89</td>
+          </tr>
+          <tr>
+            <th>Total Payments</th>
+            <td>$00.00</td>
+          </tr>
+          <tr>
+            <th>Total Balance</th>
+            <td>$8629.89</td>
+          </tr>
+        </table>
         <div class="left">
             <h2>Term Bill</h2>
           <table style= "width:50%">
@@ -173,7 +218,9 @@
           <td>$75.00</td>
         </tr>
         </table>
+        
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
+
     <script>
       Highcharts.chart('container1', {{ chart|safe }});
     </script>
