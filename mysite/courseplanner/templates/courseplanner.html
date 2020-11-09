@@ -15,6 +15,11 @@
         padding-bottom: 30px;
         background: rgba(0, 0, 0, 0.3);
       }
+
+      tr{
+        height: 27px;
+        border:0 none;
+      }
 <!--       button {-->
 
 <!--         background-color: #FFD800;-->
@@ -124,13 +129,13 @@
             <div class="row">
                 <div class="col-sm">
                     <h3 class="text-left">Added courses:</h3>
-                    <table class="table table-bordered" id="selectedCourses">
+                    <table class="table table-bordered">
                         <thead class="thead-light">
                             <th scope="col">Course Name</th>
                             <th scope="col">Course Code</th>
                             <th scope="col" />
                         </thead>
-                        <tbody>
+                        <tbody id="selectedCourses">
 
                         </tbody>
                     </table>
@@ -140,9 +145,9 @@
                <div class="col-sm">
                    <h3 class="text-left" id="timetableType"></h3>
                    <a onClick="switchView()" id="scheduleTypeLink"></a>
-                 <table class="table table-sm table-bordered" id="timetable">
+                 <table class="table table-sm table-bordered">
                      <thead class="thead-light">
-                         <th scope="col" width="4%"></th>
+                         <th scope="col" width="5%"></th>
                          <th scope="col" width="16%">Monday</th>
                          <th scope="col" width="16%">Tuesday</th>
                          <th scope="col" width="16%">Wednesday</th>
@@ -150,18 +155,49 @@
                          <th scope="col" width="16%">Friday</th>
                          <th scope="col" width="16%">Saturday</th>
                      </thead>
-                     <tbody>
+                     <tbody id="timetable">
+                        <tr><td><small>8:00</small></td><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td><small>9:00</small></td><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td><small>10:00</small></td><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td><small>11:00</small></td><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td><small>12:00</small></td><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td><small>13:00</small></td><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td><small>14:00</small></td><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td><small>15:00</small></td><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td><small>16:00</small></td><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td><small>17:00</small></td><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td><small>18:00</small></td><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td><small>19:00</small></td><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td /><td /><td /><td /><td /><td /><td /></tr>
+                        <tr><td><small>20:00</small></td><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
                         <tr><td /><td /><td /><td /><td /><td /><td /></tr>
                      </tbody>
                  </table>
+                   <button onClick="saveSchedule()" type="button" class="btn btn-light">Save Schedule</button><br><br>
                    <button onClick="previousSchedule()" type="button" class="btn btn-light">Previous Schedule</button>
                    <button onClick="nextSchedule()" type="button" class="btn btn-light">Next Schedule</button>
                    <br><br>
@@ -171,20 +207,94 @@
             </div>
             <div class="row">
                 <h3 class="text-left">Course Catalog</h3>
-                <table class="table table-bordered" id="courseCatalog">
-                    <thead class="thead-light">
-                    <th scope="col">Course Name</th>
-                    <th scope="col">Course Code</th>
-                    <th scope="col">Instructors</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Meeting Times</th>
-                    <th scope="col" />
-                    </thead>
-                    <tbody>
-                    <td></td>
-                    <td><button id="{{ forloop.counter }}" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
-                    </tbody>
-                </table>
+               <table class="table table-bordered" id="courseCatalog">
+                   <thead class="thead-light">
+                   <th scope="col">Course Name</th>
+                   <th scope="col">Course Code</th>
+                   <th scope="col">Instructors</th>
+                   <th scope="col">Status</th>
+                   <th scope="col">Meeting Times</th>
+                   <th scope="col" />
+                   </thead>
+                   <tbody>
+                     <tr>
+                       <td>PRINCIPLES OF ELECTRICAL ENGINEERING I</td>
+                       <td>14:332:221</td>
+                       <td>GODRICH, HANA</td>
+                       <td>OPEN</td>
+                       <td>M 13:40-15:00 BUS RWH-105<br>
+                            W 13:40-15:00 BUS RWH-105<br>
+                            M 17:00-18:20 BUS SEC-202</td>
+                       <td><button id="1" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
+                     </tr>
+                     <tr>
+                       <td>PRINCIPLES OF ELECTRICAL ENGINEERING II</td>
+                       <td>14:332:222</td>
+                       <td>MAMMONE</td>
+                       <td>CLOSED</td>
+                       <td>M 13:40-15:00 BUS ARC-206<br>
+                            W 13:40-15:00 BUS ARC-206</td>
+                       <td><button id="2" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
+                     </tr>
+                     <tr>
+                       <td>DIGITAL LOGIC DESIGN</td>
+                       <td>14:332:231</td>
+                       <td>CAGGIANO</td>
+                       <td>OPEN</td>
+                       <td>T 12:00-13:20 BUS HLL-114<br>
+                            F 12:00-13:20 BUS HLL-114<br>
+                            W 8:40-10:00 BUS PH-115</td>
+                       <td><button id="3" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
+                     </tr>
+                     <tr>
+                       <td>DISCRETE MATHEMATICS ECE</td>
+                       <td>14:332:312</td>
+                       <td>PETROPULU; PENG, PEI PENG</td>
+                       <td>CLOSED</td>
+                       <td>M 15:20-16:40 BUS SEC-209<br>
+                            W 15:20-16:40 BUS SEC-209</td>
+                       <td><button id="4" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
+                     </tr>
+                     <tr>
+                       <td>COMPUTER ARCHITECTURE & ASSEMBLY LANGUAGE</td>
+                       <td>14:332:331</td>
+                       <td>BURDEA, GRIGORE</td>
+                       <td>OPEN</td>
+                       <td>M 10:20-11:40 BUS SEC-111<br>
+                            H 10:20-11:40 BUS SEC-111</td>
+                       <td><button id="5" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
+                     </tr>
+                     <tr>
+                       <td>LINEAR SYSTEMS & SIGNALS</td>
+                       <td>14:332:345</td>
+                       <td>SUN, CHUANNENG; ORFANIDIS</td>
+                       <td>OPEN</td>
+                       <td>M 8:40-10:00 BUS HLL-114<br>
+                            H 8:40-10:00 BUS HLL-114<br>
+                            W 15:20-16:40 BUS SEC-203</td>
+                       <td><button id="6" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
+                     </tr>
+                     <tr>
+                       <td>ELECTRONIC DEVICES</td>
+                       <td>14:332:361</td>
+                       <td>JAVANMARD</td>
+                       <td>OPEN</td>
+                       <td>T 10:20-11:40 BUS HLL-114<br>
+                            F 10:20-11:40 BUS HLL-114</td>
+                       <td><button id="7" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
+                     </tr>
+                     <tr>
+                       <td>DIGITAL ELECTRONICS</td>
+                       <td>14:332:366</td>
+                       <td>SEHAJPAL</td>
+                       <td>OPEN</td>
+                       <td>T 15:20-16:40 BUS SEC-203<br>
+                            H 15:20-16:40 BUS SEC-203</td>
+                       <td><button id="8" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
+                     </tr>
+
+                   </tbody>
+               </table>
             </div>
         </div>
 
@@ -277,20 +387,111 @@
     </script>
 
     <script type="text/javascript">
+        class Course{
+            constructor(name, code, instructor, time){
+                this.name = name;
+                this.code = code;
+                this.instructor = instructor;
+                this.time = time;
+            }
+        }
+
+        var userCourses = new Array();
+        var savedSchedules = new Array();
+        var allSchedules = new Array();
+
         function addCourse(buttonID){
             var allCourses = document.getElementById("courseCatalog");
             var addedCourses = document.getElementById("selectedCourses");
+            for(var i = 0; i < addedCourses.rows.length; i++){
+                if(addedCourses.rows[i].cells[0].innerHTML == allCourses.rows[buttonID].cells[0].innerHTML){
+                    alert("Course already added");
+                    return;
+                }
+            }
             var newCourse = addedCourses.insertRow();
             var cell1 = newCourse.insertCell(0);
             var cell2 = newCourse.insertCell(1);
             var cell3 = newCourse.insertCell(2);
-            cell1.innerHTML = allCourses.rows[id-1].cells[0].innerHTML;
-            cell2.innerHTML = allCourses.rows[id-1].cells[1].innerHTML;
-            cell3.innerHTML = "<button type="button" class="btn btn-danger" id="del"+buttonID onClick="deleteCourse(this.id)">Delete</button>";
+            cell1.innerHTML = allCourses.rows[buttonID].cells[0].innerHTML;
+            cell2.innerHTML = allCourses.rows[buttonID].cells[1].innerHTML;
+            delButtonID = "del" + (newCourse.rowIndex-1);
+            cell3.innerHTML = '<button type="button" class="btn btn-danger" id="' + delButtonID + '" onClick="deleteCourse(this.id)">Delete</button>';
+            userCourses.push(new Course(cell1.innerHTML, cell2.innerHTML, allCourses.rows[buttonID-1].cells[2].innerHTML, allCourses.rows[buttonID-1].cells[3].innerHTML));
+            generateSchedules(userCourses);
         }
 
         function deleteCourse(buttonID){
+            var addedCourses = document.getElementById("selectedCourses");
+            index = parseInt(buttonID.substring(3));
+            addedCourses.deleteRow(index);
+        }
 
+        function generateSchedules(newSchedule){
+            var timetable = document.getElementById("timetable");
+            for(var i = 0; i < userCourses.length; i++){
+                var currCourse = userCourses[i];
+                var timeStr = currCourse.time;
+                var times = timeStr.split("<br>");
+                for(var j = 0; j < times.length; j++){
+                    var dayStr = times[i].split(" ")[0];
+                    var time = times[i].split(" ")[1];
+                    var day = 0;
+                    switch(dayStr){
+                        case "M":
+                            day = 1;
+                            break;
+                        case "T":
+                            day = 2;
+                            break;
+                        case "W":
+                            day = 3;
+                            break;
+                        case "H":
+                            day = 4;
+                            break;
+                        case "F":
+                            day = 5;
+                            break;
+                        case "S":
+                            day = 6;
+                            break;
+                    }
+                    var startTimeStr = timeStr.split("-")[0];
+                    var endTimeStr = timeStr.split("-")[1];
+                    console.log(timeStr);
+                    console.log(endTimeStr);
+
+                    var startTime = 0;
+                    var endTime = 0;
+
+                    startTime = (parseInt(startTimeStr.split(":")[0]) - 8) * 3;
+                    switch(startTimeStr.split(":")[1]){
+                        case "00":
+                            break;
+                        case "20":
+                            startTime += 1;
+                            break;
+                        case "40":
+                            startTime += 2;
+                            break;
+                    }
+                    endTime = (parseInt(endTimeStr.split(":")[0]) - 8) * 3;
+                    switch(endTimeStr.split(":")[1]){
+                        case "00":
+                            break;
+                        case "20":
+                            endTime += 1;
+                            break;
+                        case "40":
+                            endTime += 2;
+                            break;
+                    }
+
+                    for(var k = startTime; k < endTime; k++)
+                        timetable.rows[k].cells[day].style.backgroundColor = "blue";
+                }
+            }
         }
 
         function switchView(){
