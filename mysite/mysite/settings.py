@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'myR.apps.MyrConfig',
     'users.apps.UsersConfig',
     'webreg.apps.WebregConfig',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -89,6 +90,7 @@ DATABASES = {
            "password": 'Gayu@2011',
            "authMechanism": 'SCRAM-SHA-1',
         },
+
     }
 }
 
@@ -129,3 +131,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CRISPY_TEMPLATE_PACK='bootstrap4'
+
+LOGIN_REDIRECT_URL = 'Home'
+
+LOGIN_URL = 'login'

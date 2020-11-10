@@ -18,9 +18,8 @@
 
 		body {
             background: url(https://image.freepik.com/free-vector/business-candle-stick-graph-chart-stock-market-investment-trading-blue-background_62391-77.jpg);
-            position: cover;
-	        background-size: cover;
-	        background-repeat: no-repeat;
+            background-size: cover;
+            background-repeat: no-repeat;
           }
           .container .row .col-md-6 .change-form {
             padding: 10% 10% 10% 10%;
@@ -34,9 +33,9 @@
 
 		#log-row #log-column .log-form {
 			padding: 10% 10% 10% 10%;
-			margin-top: 80px;
+			margin-top: 70px;
 			max-width: 700px;
-			height: 450px;
+			height: 320px;
 			border: 1px solid black;
 			background-color: rgba(0, 0, 0, 0.6);
 			font-family: Lato;
@@ -68,16 +67,8 @@
 			<div id="log-row" class="row d-flex justify-content-center">
 				<div id="log-column" class="col-md-6">
 					<div class="log-form col-md-12">
-						<form method="POST">
-                            {% csrf_token %}
-                            <fieldset class="form-group">
-                                <legend class="border-bottom mb-4">Log In</legend>
-                                {{ form|crispy }}
-                            </fieldset>
-                            <div class="form-group">
-                                <button class="btn btn-outline-info" type="submit">Log In</button>
-                            </div>
-                        </form>
+						<h2>You have been logged out</h2>
+						<p>Please close the browser to log off Securely</p>
 
 					</div>
 				</div>
