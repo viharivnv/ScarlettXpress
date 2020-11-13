@@ -9,9 +9,10 @@ class Message(models.Model):
     message_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
+
 class Course(models.Model):
-    FullCode = models.CharField(max_length=10, default=None)
-    Index = models.IntegerField(default=None)
+    courseID = models.CharField(max_length=10, blank=True, null=True)
+    Index = models.IntegerField(blank=True, null=True)
     Title = models.CharField(max_length=500, blank=True, null=True)
     Instructors = models.CharField(max_length=500)
     Credits = models.IntegerField(default=None)
@@ -25,7 +26,7 @@ class Course(models.Model):
 
 
 class Student(models.Model):
-    netid = models.CharField(max_length=10, blank=True, null=True)
+    netID = models.CharField(max_length=10, blank=True, null=True)
     RUID = models.IntegerField(blank=True, null=True)
   # Password = models.CharField(max_length=20)
     FirstName = models.CharField(max_length=50, blank=True, null=True)
