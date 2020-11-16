@@ -85,9 +85,9 @@ DATABASES = {
         'ENGINE': 'djongo',
         "CLIENT": {
            "name": 'RUDB',
-           "host": 'mongodb+srv://admin:admin@scarletcluster.mbgoy.mongodb.net/test',
+           "host": 'mongodb+srv://admin:segrp1scarletxpress@scarletcluster.mbgoy.mongodb.net/test',
            "username": 'admin',
-           "password": 'admin',
+           "password": 'segrp1scarletxpress',
            "authMechanism": 'SCRAM-SHA-1',
         },
 
