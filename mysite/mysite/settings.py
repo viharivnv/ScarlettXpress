@@ -85,9 +85,9 @@ DATABASES = {
         'ENGINE': 'djongo',
         "CLIENT": {
            "name": 'RUDB',
-           "host": 'mongodb+srv://sudarshan55:Gayu%402011@cluster0.ldcyz.mongodb.net/test?authSource=admin&replicaSet=atlas-8irq33-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true',
-           "username": 'sudarshan55',
-           "password": 'Gayu@2011',
+           "host": 'mongodb+srv://admin:admin@scarletcluster.mbgoy.mongodb.net/test',
+           "username": 'admin',
+           "password": 'admin',
            "authMechanism": 'SCRAM-SHA-1',
         },
 

@@ -1,28 +1,31 @@
-from django.db import models
+from djongo import models
 
 class Course(models.Model):
-    FullCode = models.CharField(max_length=10, default=None)
-    Index = models.IntegerField(default=None)
-    Title = models.CharField(max_length=500, blank=True, null=True)
-    Instructors = models.CharField(max_length=500)
-    Credits = models.IntegerField(default=None)
-    MeetingType = models.CharField(max_length=100, blank=True, null=True)
-    Status = models.BooleanField(default=True)
-    Enrolled = models.IntegerField(blank=True, null=True)
-    Capacity = models.IntegerField(blank=True, null=True)
-    MeetingTimes = models.CharField(max_length=100)
-
+    courseID = models.IntegerField()
+    sectionNumber = models.CharField(max_length=3)
+    Index = models.IntegerField(primary_key=True)
+    Instructors = models.TextField()
+    Title = models.TextField()
+    Credits = models.IntegerField()
+    MeetingType = models.CharField(max_length=20)
+    Status = models.BooleanField()
+    Enrolled = models.IntegerField()
+    Capacity = models.IntegerField()
+    MeetingTimes = models.TextField()
+    def __str__(self):
+        return self.Title
 
 
 class Student(models.Model):
-    netid = models.CharField(max_length=10, default=None)
-    RUID = models.IntegerField(blank=True, null=True)
+    netID = models.TextField(primary_key=True)
+    RUID = models.IntegerField()
   # Password = models.CharField(max_length=20)
-    FirstName = models.CharField(max_length=50,blank=True, null=True)
-    LastName = models.CharField(max_length=50,blank=True, null=True)
-    DegreeLevel = models.CharField(max_length=50,blank=True, null=True)
-    CreditsRegistered = models.IntegerField(blank=True, null=True)
-    CreditsTaken = models.IntegerField(blank=True, null=True)
-    CoursesRegistered = models.IntegerField(blank=True, null=True)
-    CoursesTaken =  models.IntegerField(blank=True, null=True)
-
+    FirstName = models.TextField()
+    LastName = models.TextField()
+    DegreeLevel = models.CharField(max_length=2)
+    CreditsRegistered = models.IntegerField()
+    CreditsTaken = models.IntegerField()
+    CoursesRegistered = models.IntegerField()
+    CoursesTaken =  models.IntegerField()
+    def __str__(self):
+        return self.FirstName + " " + self.LastName
