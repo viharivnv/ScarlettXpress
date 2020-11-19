@@ -1,18 +1,21 @@
 from django.shortcuts import render
 
 from django.contrib.auth.decorators import login_required
+from myR.models import Course,Student
 
 @login_required
 def bill(request):
+    username = request.user.username
+    student=Student.objects.get('netID'=username)
+    credits=student.CreditsRegistered
     campusFee = 1144.95
     schoolFee = 104.75
     dbc = 119.99
     misc = 75.00
     CompFee = 171
     pirg = 11.2
-    credits = 1
     tution = credits * 3950
-    fees=campusFee+schoolFee+tution+dbc+misc+CompFee
+    fees=campusFee+schoolFee+tution+dbc+misc+CompFee+pirg
     paid=0
     balance=fees-paid
     data = [
