@@ -1,10 +1,14 @@
 from django.shortcuts import render
 import xlrd
-
+from myR.models import Course
 from pymongo import MongoClient
 
 
 def index(request):
+
+    data = list(Course.objects.find({}))
+
+    '''
     context = {
         "data": { "1":['ENG101', 256565, 3, 'Mr.Bob', 'Online', 'Open', 'Mondays @ 2'], "2":['ENG202', 256900, 2, 'Mr.Jones', 'Online', 'Open', 'Tuesdays @ 2']  },
         #"data": ['ENG101', 256565, 3, 'Mr.Bob', 'Online', 'Open', 'Mondays @ 2'],
@@ -12,14 +16,27 @@ def index(request):
         "cart" : { "1":['ENG101', 256565, 3, 'Mr.Bob', 'Online', 'Open', 'Mondays @ 2'], },
         "message" : [""]
     }
+    '''
+
+    context = {
+        "data": data,
+        #"data": ['ENG101', 256565, 3, 'Mr.Bob', 'Online', 'Open', 'Mondays @ 2'],
+        "x": ['1','2','3','4','5','6','7','8','9'],
+        "cart" : { "1":['ENG101', 256565, 3, 'Mr.Bob', 'Online', 'Open', 'Mondays @ 2'], },
+        "message" : [""]
+    }
+
+    '''
     context2 = {
         "data": { "first":['ENG101', 256565, 3, 'Mr.Bob', 'Online', 'Open', 'Mondays @ 2'],   },
         #"data": ['ENG101', 256565, 3, 'Mr.Bob', 'Online', 'Open', 'Mondays @ 2'],
         "x": [1,2],
 
     }
-    context["cart"]= {}
-
+    '''
+    '''context["cart"]= {}
+'''
+    '''
     loc = ("webreg/courseinfo.xlsx")
     wb = xlrd.open_workbook(loc)
     sheet = wb.sheet_by_index(0)
@@ -31,8 +48,8 @@ def index(request):
     del context['data']['1']
     del context['data']['2']
     #print(context)
-
-    numofclasses = 1;
+'''
+    numofclasses = 1
     if request.method == 'POST':
         for key,y in request.POST.items():
             if key == "csrfmiddlewaretoken":
@@ -49,7 +66,7 @@ def index(request):
             else:
                 if(numofclasses==2):
                     context['temp']=[context["data"][2][2],context["data"][2][10], context["data"][2][4]]
-                    context["cart"].update({ numofclasses : context["temp"]})
+                    context["cart"].update({numofclasses: context["temp"]})
 
                 context['temp'] = [context["data"][int(key)][2], context["data"][int(key)][10],context["data"][int(key)][4]]
                 context["cart"].update({numofclasses: context["temp"]})

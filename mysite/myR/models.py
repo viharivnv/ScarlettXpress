@@ -12,6 +12,7 @@ class Course(models.Model):
     Enrolled = models.IntegerField()
     Capacity = models.IntegerField()
     MeetingTimes = models.TextField()
+    Prerequisites = models.TextField()
     def __str__(self):
         return self.Title
 
