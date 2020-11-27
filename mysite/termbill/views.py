@@ -13,7 +13,7 @@ def bill(request):
     students = db.myR_student
     username = request.user.username
     studentdata = students.find_one({'netID': username})
-    Name=studentdata["FirstName"]+studentdata["LastName"]
+    Name=studentdata["FirstName"]+' ' + studentdata["LastName"]
     credits=studentdata["CreditsRegistered"]
     campusFee = 1144.95
     schoolFee = 104.75
@@ -21,9 +21,11 @@ def bill(request):
     misc = 75.00
     CompFee = 171
     pirg = 11.2
-    tution = credits * 3950
+    tution = credits * 915
+    if credits>=4:
+        tution =12*915
     fees=campusFee+schoolFee+tution+dbc+misc+CompFee+pirg
-    paid=0.1
+    paid=0.0
     balance="{:.2f}".format(fees-paid)
     fees="{:.2f}".format(fees)
     data = [
@@ -32,14 +34,14 @@ def bill(request):
             'credits': str(credits),
             'ComputerFee': '$171.00',
             'PIRG': '$11.20',
-            'CampusFee': '$1144.95',
+            'CampusFee': '$845',
             'SchoolFee': '$104.75',
-            'TutionFees': str(tution),
+            'TutionFees': '$'+str(tution),
             'DigitalBookCharge': '$8629.89',
             'MISC': '$75.00',
-            'TotalCharges': str(fees),
-            'TotalPayments': str(paid),
-            'BalanceDue': str(balance)
+            'TotalCharges': '$'+str(fees),
+            'TotalPayments': '$'+str(paid),
+            'BalanceDue': '$'+str(balance)
 
          }
     ]
