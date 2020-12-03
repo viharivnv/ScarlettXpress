@@ -28,5 +28,6 @@ class Student(models.Model):
     CreditsTaken = models.IntegerField()
     CoursesRegistered = models.IntegerField()
     CoursesTaken =  models.IntegerField()
+    DueDate = models.DateField()
     def __str__(self):
         return self.FirstName + " " + self.LastName
