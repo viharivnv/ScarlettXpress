@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+import datetime
 from django.contrib.auth.decorators import login_required
 from myR.models import Course,Student
 from pymongo import MongoClient
@@ -15,6 +15,8 @@ def bill(request):
     studentdata = students.find_one({'netID': username})
     Name=studentdata["FirstName"]+' ' + studentdata["LastName"]
     credits=studentdata["CreditsRegistered"]
+    duedate = studentdata["DueDate"]
+    duedate=duedate.date()
     campusFee = 1144.95
     schoolFee = 104.75
     dbc = 119.99
@@ -30,6 +32,7 @@ def bill(request):
     fees="{:.2f}".format(fees)
     data = [
         {
+            'DueDate': str(duedate),
             'Name': Name,
             'credits': str(credits),
             'ComputerFee': '$171.00',
