@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'myR.apps.MyrConfig',
     'users.apps.UsersConfig',
     'webreg.apps.WebregConfig',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -85,11 +86,12 @@ DATABASES = {
         'ENGINE': 'djongo',
         "CLIENT": {
            "name": 'RUDB',
-           "host": 'mongodb+srv://sudarshan55:Gayu%402011@cluster0.ldcyz.mongodb.net/test?authSource=admin&replicaSet=atlas-8irq33-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true',
-           "username": 'sudarshan55',
-           "password": 'Gayu@2011',
+           "host": 'mongodb+srv://admin:segrp1scarletxpress@scarletcluster.mbgoy.mongodb.net/test',
+           "username": 'admin',
+           "password": 'segrp1scarletxpress',
            "authMechanism": 'SCRAM-SHA-1',
         },
+
     }
 }
 
@@ -130,3 +132,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CRISPY_TEMPLATE_PACK='bootstrap4'
+
+LOGIN_REDIRECT_URL = 'Home'
+
+LOGIN_URL = 'login'

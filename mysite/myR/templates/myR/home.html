@@ -1,7 +1,7 @@
  <!DOCTYPE html>
     <html>
     <head>
-        <title>ScarletXpress</title>
+        <title>Home</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
       <style type="text/css">
@@ -97,12 +97,9 @@
               
           </ul>
           <ul class="navbar-nav ml-auto">
-              
+
               <li class="nav-item">
-                <a class="nav-link" href="">Update Password</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="">Logout</a>
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
               </li>
           </ul>
           </div>
@@ -115,21 +112,13 @@
     <script>
       Highcharts.chart('container1', {{ chart|safe }});
     </script>
-    <hr>
-    	
-            <ul>
-            <div class="row">
-                
-               
-
-                
-                </div>
-            </ul>
-
-            
-
-            </div>
-        </div>
+    <div>
+        <h2>Important Inforamtion</h2>
+        <h2>NetID:{% for d in data %} {{d.NetID}} {% endfor %} </h2>
+        <h2>Student Name:{% for d in data %} {{d.Name}} {% endfor %} </h2>
+        <h2>Credits:{% for d in data %} {{d.credits}} {% endfor %} </h2>
+        <h2>Due Date:{% for d in data %} {{d.DueDate}} {% endfor %} </h2>
+    </div>
 
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

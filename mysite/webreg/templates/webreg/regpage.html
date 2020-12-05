@@ -140,15 +140,11 @@
           <ul class="navbar-nav ml-auto">
 
               <li class="nav-item">
-                <a class="nav-link" href="">Update Password</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="">Logout</a>
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
               </li>
           </ul>
           </div>
         </nav>
-
 <body>
 <h1 class="text-center sample">
     Registration
@@ -188,16 +184,29 @@
                         <th>Meeting Times</th>
                         <th>Credits</th>
                     </tr>
+            {% for x,h in cart.items %}
+                        <tr>
+                {% for i in h %}
+                            {% if x == '_id' %}
+                        {% else %}
+            <th> {{ i}}<br></th>
+                             {% endif %}
+            {% endfor %}
+                            <tr>
+                    {% endfor %}
+
 
                 </table>
                 </div>
                 <div class="row">
                     Total Credits:
                 </div>
-
-                <button class="btn btn-primary" type="submit">
+       <form method="POST"><th>
+            {% csrf_token %}
+                <button class="btn btn-primary" type="submit" name = "registerclass">
                         Register
                     </button>
+       </th></form>
             </div>
         <div id="Registered" class="tabcontent">
             <div class="row">
@@ -213,13 +222,30 @@
                         <th>Credits</th>
                     </tr>
 
+
+           {% for x,h in registered.items %}
+                        <tr>
+                {% for i in h %}
+            <th> {{ i}}<br></th>
+            {% endfor %}
+            <form method="POST"><th>
+            {% csrf_token %}
+            <input type="submit" name = "Drop-{{ x }}" value = "Drop"  />
+       </th></form>
+                            <tr>
+                    {% endfor %}
+
+
                 </table>
                 </div>
                 <div class="row">
-                    Total Credits:
+                    Total Credits: {{credits}}
                 </div>
         </div>
+
+
     </div>
+
 </div>
 
     <br>
@@ -230,14 +256,48 @@
 			<table class="table table-sm">
 				<tr>
 					<th>Course Code</th>
-					<th>Section Number</th>
+                    <th>Section Number</th>
 					<th>Index</th>
-					<th>Instructors</th>
+                    <th>Instructors</th>
+                    <th>Course Name</th>
+                    <th>Credits</th>
 					<th>Meeting Type</th>
 					<th>Status</th>
+                    <th>Enrolled</th>
+                    <th>Total Seats</th>
                     <th>Meeting Times</th>
+                    <th>Prerequisites</th>
                     <th>Register</th>
 				</tr>
+
+
+
+
+    {% for h in data %}
+        <tr>
+            {% for x,y in h.items %}
+            {% if x == '_id' %}
+            {% else %}
+            <th> {{ y }}<br></th>
+            {% endif%}
+            {% endfor %}
+
+        <form method="POST"><th>
+            {% csrf_token %}
+            {% for x,y in h.items %}
+            {% if x == '_id' %}
+            <input type="submit" name = "Cart-{{ y }}" value = "Register"  />
+            {% endif%}
+            {% endfor %}
+
+       </th></form>
+
+        <tr>
+    {% endfor %}
+
+
+
+
 
 			</table>
                 </div>
@@ -258,5 +318,10 @@ function openTab(evt, tabName){
   document.getElementById(tabName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+function my_func() {
+     window.location.reload();
+}
+
 </script>
 </html>

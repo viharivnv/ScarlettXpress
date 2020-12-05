@@ -67,15 +67,22 @@
         position: absolute;
         right: 0px;
         width: 300px;
-        border: 3px solid red;
         padding: 10px;
         }
-       .left {
+
+
+      .left {
         position: absolute;
-        right: 900px;
-        width: 500px;
-        border: 3px solid red;
+        right: 500px;
+        width: 1000px;
         padding: 10px;
+        }
+
+      .middle{
+          position: absolute;
+          right: 500px;
+          width: 500px;
+          padding: 10px;
         }
       </style>
     </head>
@@ -85,7 +92,7 @@
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          
+
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
@@ -100,22 +107,19 @@
               <li class="nav-item">
                 <a class="nav-link" href="">Accessibility</a>
               </li>
-              
-              
+
+
           </ul>
           <ul class="navbar-nav ml-auto">
-              
+
               <li class="nav-item">
-                <a class="nav-link" href="">Update Password</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="">Logout</a>
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
               </li>
           </ul>
           </div>
         </nav>
 
-        <h1 class="text-center sample">Welcome to Scarlet Xpress!</h1>
+        <h1 class="text-center sample">Manage your Term bill now!</h1>
         <div class="right">
             <h2>Important Links</h2>
         <a href="https://finservices.rutgers.edu/faaward/letter/awardLogin.htm">
@@ -141,54 +145,76 @@
           border: 1px solid black;
         }
       </style>
+
         <div class="left">
-            <h2>Term Bill</h2>
+            <h2>Student Name:{% for d in data %} {{d.Name}} {% endfor %} </h2>
+            <h2>Credits:{% for d in data %} {{d.credits}} {% endfor %} </h2>
+            <h2>Total Due:{% for d in data %} {{d.BalanceDue}} {% endfor %} </h2>
+            <h2>Due Date:{% for d in data %} {{d.DueDate}} {% endfor %} </h2>
           <table style= "width:50%">
           <tr>
             <th>COMPUTER FEE</th>
-            <td>$171.00</td>
+            <td>{% for d in data %} {{d.ComputerFee}} {% endfor %}</td>
           </tr>
           <tr>
             <th>PIRG</th>
-            <td>$11.20</td>
+            <td>{% for d in data %} {{d.PIRG}} {% endfor %}</td>
           </tr>
           <tr>
             <th>CAMPUS FEE</th>
-            <td>$1144.95</td>
+            <td>{% for d in data %} {{d.CampusFee}} {% endfor %}</td>
           </tr>
           <tr>
             <th>SCHOOL FEE</th>
-            <td>$104.75</td>
+            <td>{% for d in data %} {{d.SchoolFee}} {% endfor %}</td>
           </tr>
         <tr>
           <th>TUITION</th>
-          <td>${{data.credits}}</td>
+          <td>{% for d in data %} {{d.TutionFees}} {% endfor %}</td>
         </tr>
         <tr>
           <th>DIGITAL BOOK CHARGE</th>
-          <td>$119.99</td>
+          <td>{% for d in data %} {{d.DigitalBookCharge}} {% endfor %}</td>
         </tr>
         <tr>
           <th>MISC</th>
-          <td>$75.00</td>
+          <td>{% for d in data %} {{d.MISC}} {% endfor %}</td>
         </tr>
+              <tr>
+            <th>Total Charges</th>
+            <td>{% for d in data %} {{d.TotalCharges}} {% endfor %}</td>
+          </tr>
+          <tr>
+            <th>Total Payments</th>
+            <td>{% for d in data %} {{d.TotalPayments}} {% endfor %}</td>
+          </tr>
+          <tr>
+            <th>Total Due</th>
+            <td>{% for d in data %} {{d.BalanceDue}} {% endfor %}</td>
+          </tr>
         </table>
+            <br>
+            <form method="get" action="https://finservices.rutgers.edu/otb/">
+                <input type="submit" value="Pay Now" />
+            </form>
+
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
+
     <script>
       Highcharts.chart('container1', {{ chart|safe }});
     </script>
     <hr>
-    	
+
             <ul>
             <div class="row">
-                
-               
 
-                
+
+
+
                 </div>
             </ul>
 
-            
+
 
             </div>
         </div>
