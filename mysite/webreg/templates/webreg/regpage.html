@@ -140,10 +140,7 @@
           <ul class="navbar-nav ml-auto">
 
               <li class="nav-item">
-                <a class="nav-link" href="">Update Password</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="">Logout</a>
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
               </li>
           </ul>
           </div>
@@ -187,13 +184,16 @@
                         <th>Meeting Times</th>
                         <th>Credits</th>
                     </tr>
-        <tr>
             {% for x,h in cart.items %}
+                        <tr>
                 {% for i in h %}
+                            {% if x == '_id' %}
+                        {% else %}
             <th> {{ i}}<br></th>
+                             {% endif %}
             {% endfor %}
+                            <tr>
                     {% endfor %}
-        <tr>
 
 
                 </table>
@@ -221,22 +221,28 @@
                         <th>Meeting Times</th>
                         <th>Credits</th>
                     </tr>
-        <tr>
-            {% for x,h in registered.items %}
+
+
+           {% for x,h in registered.items %}
+                        <tr>
                 {% for i in h %}
             <th> {{ i}}<br></th>
             {% endfor %}
+            <form method="POST"><th>
+            {% csrf_token %}
+            <input type="submit" name = "Drop-{{ x }}" value = "Drop"  />
+       </th></form>
+                            <tr>
                     {% endfor %}
-        <tr>
 
 
                 </table>
                 </div>
                 <div class="row">
-                    Total Credits:
+                    Total Credits: {{credits}}
                 </div>
         </div>
-                        <th>{{message}}</th>
+
 
     </div>
 
@@ -267,14 +273,23 @@
 
 
 
-    {% for h,k in data.items %}
+    {% for h in data %}
         <tr>
-        {% for i in k %}
-            <th> {{ i }}<br></th>
-        {%  endfor %}
+            {% for x,y in h.items %}
+            {% if x == '_id' %}
+            {% else %}
+            <th> {{ y }}<br></th>
+            {% endif%}
+            {% endfor %}
+
         <form method="POST"><th>
             {% csrf_token %}
-            <input type="submit" name = "{{ forloop.counter }}" value = "Register"  />
+            {% for x,y in h.items %}
+            {% if x == '_id' %}
+            <input type="submit" name = "Cart-{{ y }}" value = "Register"  />
+            {% endif%}
+            {% endfor %}
+
        </th></form>
 
         <tr>
