@@ -120,12 +120,56 @@
         font-size: 16px;
       }
       input.message[type=text] {
-        position: absolute;
-        right: 0;
-        width: 66%;
+        right: 10%;
+        width: 80%;
+        height: 100%;
         bottom: 2px;
         border: 2px solid #ddd;
         font-size: 16px;
+      }
+
+      button.record {
+         background-color: #FF8888;
+         color: white;
+         padding: 9px 20px;
+         margin: 8px 0;
+         border: none;
+         cursor: pointer;
+         width: 10%;
+         right: 0;
+         height = 100%;
+       }
+
+      button.send {
+         background-color: #FF8888;
+         color: white;
+         padding: 9px 20px;
+         margin: 8px 0;
+         border: none;
+         cursor: pointer;
+         width: 10%;
+         right: 0;
+         height = 100%;
+       }
+
+      button.sent {
+        background-color: #FFAAAA;
+         color: white;
+         border: none;
+         cursor: pointer;
+         right: 10px;
+         width: 100%;
+         height: 40px;
+      }
+
+      button.received {
+        background-color: #CCCCCC;
+         color: black;
+         border: none;
+         cursor: pointer;
+         left: 10px;
+         width: 100%;
+         height: 40px;
       }
 
       .wrapper {
@@ -134,6 +178,13 @@
           top: 123px;
           height: 40px; /* needs to be defined in this case so that the children know what they should be 100% height of */
           width: 34%;
+      }
+      .wrapper2 {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          height: 40px; /* needs to be defined in this case so that the children know what they should be 100% height of */
+          width: 66%;
       }
     </style>
 </head>
@@ -179,51 +230,172 @@
 
 <h1 class="text-center sample">Course Chat</h1>
 <div class="wrapper">
-      <input class="search" type="text" id="search" placeholder="Search.."><button class="search" onclick="addChat(event)">Search</button>
+      <input class="search" type="text" id="search" placeholder="Search..."><button class="search" onclick="updateConversations()">Search</button>
 </div>
 <div class="conversations" id="conversations">
 </div>
-<div class="chat"></div>
-<form>
-  <input class="message" type="text" id="message" placeholder="Message">
-</form>
-<br><br>
-
-<script src="https://code.highcharts.com/highcharts.src.js"></script>
-<script>
-      Highcharts.chart('container1', {{ chart|safe }});
-
-</script>
-<hr>
-
-<ul>
-    <div class="row">
-
-
-    </div>
-</ul>
-
-
-</div>
+<div class="chat" id="chat"></div>
+<div class="wrapper2">
+  <button class="record" onclick="voiceToText()">Record</button><input class="message" type="text" id="message" placeholder="Message..."><button class="send" onclick="sendMessage()">Send</button>
 </div>
 
 <script>
-function updateConversations(evt){
-  var button = document.createElement("BUTTON");
-  button.className = "convo";
-  let participants = document.getElementById("search").value;
-  button.innerHTML = participants;                   // Insert text
-  document.getElementById("conversations").appendChild(button);
-  document.getElementById("search").value = "";
+var inHelp = false;
+var student = 'Student';
+var currchat = 0;
+
+var helpRequests = [
+    { command: 'help', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
+    { command: 'chat', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
+    { command: 'termbill', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
+    { command: 'webreg', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
+    { command: 'courseplanner', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
+    { command: 'myrutgers', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
+];
+
+let help = [
+];
+
+var chatlist = [
+    { members: ['Student','Sachin']},
+    { members: ['Student', 'Radhika']}
+];
+
+let chats = [
+    [{ sender: 'Student', message: 'Hey' },
+    { sender: 'Sachin', message: 'Hi' }],
+    [{ sender: 'Radhika', message: 'Hello' },
+    { sender: 'Student', message: 'How are you doing?' }]
+];
+
+window.onload = load();
+
+function load(){
+    console.log("load");
+    updateConversations();
+    updateMessages(currchat);
 }
 
-function updateMessages(evt){
-  var button = document.createElement("BUTTON");
-  button.className = "convo";
-  let participants = document.getElementById("search").value;
-  button.innerHTML = participants;                   // Insert text
-  document.getElementById("conversations").appendChild(button);
-  document.getElementById("search").value = "";
+function updateConversations(){
+    console.log("updating conversations");
+    var conversations = document.getElementById("conversations");
+    var search = document.getElementById("search").value;
+    while (conversations.hasChildNodes())
+        conversations.removeChild(conversations.lastChild);
+    var helpButton = document.createElement("BUTTON");
+    helpButton.className = "convo";
+    helpButton.innerHTML = "help";
+    helpButton.addEventListener('click', updateHelp);
+    conversations.appendChild(helpButton);
+    console.log("added help");
+    var i;
+    var j;
+    for (i = 0; i < chatlist.length; i++) {
+        if(search === "" || chatlist[i].members.find(member => member.toLowerCase().includes(search.toLowerCase()))){
+            var button = document.createElement("BUTTON");
+            button.className = "convo";
+            for (j = 0; j < chatlist[i].members.length; j++) {
+                if(!(chatlist[i].members[j] === student))
+                    button.innerHTML += (chatlist[i].members[j] + ", ");
+            }
+            button.innerHTML = button.innerHTML.slice(0, -2)
+            const input = i;
+            button.addEventListener('click', function(){
+                updateMessages(input);
+            });
+            conversations.appendChild(button);
+        }
+    }
+}
+
+function updateMessages(i){
+    inHelp = false;
+    var chatlog = document.getElementById("chat");
+    while (chatlog.hasChildNodes())
+        chatlog.removeChild(chatlog.lastChild);
+    currchat = i;
+    var j;
+    for (j = 0; j < chats[i].length; j++) {
+        var button = document.createElement("BUTTON");
+        if(student === chats[i][j].sender){
+            button.className = "sent";
+        }
+        else{
+            button.className = "received";
+        }
+        button.innerHTML = chats[i][j].sender + ": " + chats[i][j].message;
+        chatlog.appendChild(button);
+    }
+}
+
+function updateHelp(){
+    inHelp = true;
+    var chatlog = document.getElementById("chat");
+    while (chatlog.hasChildNodes()) {
+        chatlog.removeChild(chatlog.lastChild);
+    }
+    var j;
+    for (j = 0; j < help.length; j++) {
+        var button = document.createElement("BUTTON");
+        if(student === help[j].sender){
+            button.className = "sent";
+        }
+        else{
+            button.className = "received";
+        }
+        button.innerHTML = help[j].sender + ": " + help[j].message;
+        chatlog.appendChild(button);
+    }
+}
+
+function sendMessage(){
+    var message = document.getElementById("message").value;
+    if(!(message === "")){
+        if(inHelp){
+            help.push({ sender: student, message: message});
+            helpRequests.forEach((request) => {
+              if(message.includes(request.command))
+                help.push({ sender: 'helpbot', message: request.message});
+            });
+            updateHelp();
+        }
+        else{
+            chats[currchat].push({ sender: student, message: message});
+            updateMessages(currchat);
+        }
+    }
+}
+
+function addChat(){
+    var search = document.getElementById("search").value;
+    if(!(search === "")){
+        chatList.push({members: [student, search]});
+        updateConversations();
+    }
+}
+
+// new speech recognition object
+var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+var recognition = new SpeechRecognition();
+
+// This runs when the speech recognition service starts
+recognition.onstart = function() {
+    console.log("We are listening. Try speaking into the microphone.");
+};
+
+recognition.onspeechend = function() {
+    // when user is done speaking
+    recognition.stop();
+}
+
+// This runs when the speech recognition service returns result
+recognition.onresult = function(event) {
+    document.getElementById("message").value += event.results[0][0].transcript;
+    var confidence = event.results[0][0].confidence;
+};
+
+function voiceToText(){
+    recognition.start();
 }
 </script>
 </body>
