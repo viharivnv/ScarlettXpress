@@ -201,7 +201,7 @@
                    <button onClick="previousSchedule()" type="button" class="btn btn-light">Previous Schedule</button>
                    <button onClick="nextSchedule()" type="button" class="btn btn-light">Next Schedule</button>
                    <br><br>
-                   <button id="importSchedule" style = "display: none;">Import schedule to Google Calendar</button>
+                   <button type="button" class="btn btn-light" id="importSchedule">Import schedule to Google Calendar</button>
                    <button id="signout-button" style="display: none;">Sign Out</button>
                </div>
             </div>
@@ -209,89 +209,24 @@
                 <h3 class="text-left">Course Catalog</h3>
                <table class="table table-bordered" id="courseCatalog">
                    <thead class="thead-light">
-                   <th scope="col">Course Name</th>
-                   <th scope="col">Course Code</th>
-                   <th scope="col">Instructors</th>
-                   <th scope="col">Status</th>
-                   <th scope="col">Meeting Times</th>
-                   <th scope="col" />
+                       <th scope="col">Course Name</th>
+                       <th scope="col">Course Code</th>
+                       <th scope="col">Instructors</th>
+                       <th scope="col">Status</th>
+                       <th scope="col">Meeting Times</th>
+                       <th scope="col" />
                    </thead>
                    <tbody>
-                     <tr>
-                       <td>PRINCIPLES OF ELECTRICAL ENGINEERING I</td>
-                       <td>14:332:221</td>
-                       <td>GODRICH, HANA</td>
-                       <td>OPEN</td>
-                       <td>M 13:40-15:00 BUS RWH-105<br>
-                            W 13:40-15:00 BUS RWH-105<br>
-                            M 17:00-18:20 BUS SEC-202</td>
-                       <td><button id="1" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
-                     </tr>
-                     <tr>
-                       <td>PRINCIPLES OF ELECTRICAL ENGINEERING II</td>
-                       <td>14:332:222</td>
-                       <td>MAMMONE</td>
-                       <td>CLOSED</td>
-                       <td>M 13:40-15:00 BUS ARC-206<br>
-                            W 13:40-15:00 BUS ARC-206</td>
-                       <td><button id="2" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
-                     </tr>
-                     <tr>
-                       <td>DIGITAL LOGIC DESIGN</td>
-                       <td>14:332:231</td>
-                       <td>CAGGIANO</td>
-                       <td>OPEN</td>
-                       <td>T 12:00-13:20 BUS HLL-114<br>
-                            F 12:00-13:20 BUS HLL-114<br>
-                            W 8:40-10:00 BUS PH-115</td>
-                       <td><button id="3" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
-                     </tr>
-                     <tr>
-                       <td>DISCRETE MATHEMATICS ECE</td>
-                       <td>14:332:312</td>
-                       <td>PETROPULU; PENG, PEI PENG</td>
-                       <td>CLOSED</td>
-                       <td>M 15:20-16:40 BUS SEC-209<br>
-                            W 15:20-16:40 BUS SEC-209</td>
-                       <td><button id="4" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
-                     </tr>
-                     <tr>
-                       <td>COMPUTER ARCHITECTURE & ASSEMBLY LANGUAGE</td>
-                       <td>14:332:331</td>
-                       <td>BURDEA, GRIGORE</td>
-                       <td>OPEN</td>
-                       <td>M 10:20-11:40 BUS SEC-111<br>
-                            H 10:20-11:40 BUS SEC-111</td>
-                       <td><button id="5" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
-                     </tr>
-                     <tr>
-                       <td>LINEAR SYSTEMS & SIGNALS</td>
-                       <td>14:332:345</td>
-                       <td>SUN, CHUANNENG; ORFANIDIS</td>
-                       <td>OPEN</td>
-                       <td>M 8:40-10:00 BUS HLL-114<br>
-                            H 8:40-10:00 BUS HLL-114<br>
-                            W 15:20-16:40 BUS SEC-203</td>
-                       <td><button id="6" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
-                     </tr>
-                     <tr>
-                       <td>ELECTRONIC DEVICES</td>
-                       <td>14:332:361</td>
-                       <td>JAVANMARD</td>
-                       <td>OPEN</td>
-                       <td>T 10:20-11:40 BUS HLL-114<br>
-                            F 10:20-11:40 BUS HLL-114</td>
-                       <td><button id="7" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
-                     </tr>
-                     <tr>
-                       <td>DIGITAL ELECTRONICS</td>
-                       <td>14:332:366</td>
-                       <td>SEHAJPAL</td>
-                       <td>OPEN</td>
-                       <td>T 15:20-16:40 BUS SEC-203<br>
-                            H 15:20-16:40 BUS SEC-203</td>
-                       <td><button id="8" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
-                     </tr>
+                    {% for course in allCourses %}
+                    <tr>
+                    <td>{{ course.Title }}</td>
+                    <td>{{ course.courseID }}</td>
+                    <td>{{ course.Instructors }}</td>
+                    <td>{{ course.Status }}</td>
+                    <td>{{ course.MeetingTimes }}</td>
+                    <td><button id="{{ forloop.counter }}" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
+                    </tr>
+                    {% endfor %}
                    </tbody>
                </table>
             </div>
@@ -432,16 +367,29 @@
             }
         }
 
+        function getIndexes(source, find) {
+          var result = [];
+          for (i = 0; i < source.length; ++i) {
+            if (source.substring(i, i + find.length) == find) {
+              result.push(i);
+            }
+          }
+          return result;
+        }
+
         function generateSchedules(newSchedule){
             var timetable = document.getElementById("timetable");
             for(var i = 0; i < userCourses.length; i++){
                 var currCourse = userCourses[i];
-                var timeStr = currCourse.time.replace(/\s+/g,' ');
-                var times = timeStr.replace(/\n/g,'').split("<br>");
+                var timeStr = currCourse.time;
+                var times = timeStr.split("\n");
+
                 for(var j = 0; j < times.length; j++){
                     times[j] = times[j].trim();
-                    var dayStr = times[j].split(" ")[0];
-                    var time = times[j].split(" ")[1];
+                    var dayStr = times[j].split("\t")[0];
+                    var time = times[j].split("\t")[1];
+                    console.log(dayStr);
+                    console.log(time);
                     var day = 0;
                     switch(dayStr){
                         case "M":
@@ -453,7 +401,7 @@
                         case "W":
                             day = 3;
                             break;
-                        case "H":
+                        case "TH":
                             day = 4;
                             break;
                         case "F":
@@ -465,6 +413,8 @@
                     }
                     var startTimeStr = time.split("-")[0];
                     var endTimeStr = time.split("-")[1];
+
+                    if(endTimeStr.substring())
 
                     var startTime = 0;
                     var endTime = 0;
