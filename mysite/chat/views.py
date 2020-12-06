@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 context = {
     "currchatid": 0,
-    "currentchat": {},
+    "chats": {},
     "conversations": []
 }
 
@@ -20,19 +20,18 @@ def chat(request):
     students = db.myR_student
 
     username = request.user.username
-
-    chatlist = conversations.find_one({'netID': username})
-    chatlist = chatlist['chats']
-    context['conversations'] = chatlist
+    context['conversations'] = conversations.find_one({'netID': username})["chats"]
+    context['currchatid'] = context["conversations"][0]
+    for c in context["conversations"]:
+        context["chats"][c] = chats.find_one({"id": c}, {"_id": 0})
 
     if request.method == 'POST':
         for key, y in request.POST.items():
             if key == "csrfmiddlewaretoken":
                 continue
 
-            elif key[0:6] == "update":
+            elif key[0:6] == "search":
                 search = key[7:]
-                print(search)
                 results = []
                 for c in context["conversations"]:
                     for m in chats.find_one({'id': c}).members:
@@ -40,14 +39,12 @@ def chat(request):
                             results.append(c)
                             break
                 context["conversations"] = results
-                context["currchat"] = chats.find_one({"id": context["currchatid"]})
 
             elif key[0:6] == "switch":
                 chatid = key[7:]
                 print(chatid)
-                if id in chatlist:
+                if id in context["conversations"]:
                     context['currchatid'] = int(chatid)
-                    context['currchat'] = chats.find_one({'id': int(chatid)})
 
             elif key[0:4] == "send":
                 message = key[5:]
@@ -56,15 +53,14 @@ def chat(request):
                 chats.update_one({"messages": chats.find_one({"id": context["currchatid"]})["messages"]},
                                  {"$set": {"messages": chats.find_one({
                                      "id": context["currchatid"]})["messages"].append(m)}})
-                context['currchat'] = chats.find_one({"id": context["currchatid"]})
 
             elif key[0:3] == "add":
                 users = key[4:]
                 users = users.split(" ")
                 print(users)
+                temp = []
                 for u in users:
-                    temp = []
-                    for i in users.find({"username": u}):
+                    for i in students.find({"username": u}):
                         temp.append(u)
                 users = temp
                 index = chats.count()

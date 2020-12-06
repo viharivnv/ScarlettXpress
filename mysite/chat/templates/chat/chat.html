@@ -208,7 +208,7 @@
                 <a class="nav-link" href="">Term Bill</a>
             </li>
             <li class="nav-item {{ analysis_page }}">
-                <a class="nav-link" href="{% url 'chat' %}">Chat</a>
+                <a class="nav-link" href="{% url 'Chat' %}">Chat</a>
             </li>
             <li class="nav-item {{ compare_page }}">
                 <a class="nav-link" href="">Accessibility</a>
@@ -242,7 +242,9 @@
 <script>
 var inHelp = false;
 var student = 'Student';
-var currchatid = 0;
+var currchatid = {{ currchatid }};
+var chatlist = {{ conversations }};
+var chats = {{chats|safe}};
 
 var helpRequests = [
     { command: 'help', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
@@ -273,24 +275,21 @@ function updateConversations(){
     helpButton.innerHTML = "Help";
     helpButton.addEventListener('click', updateHelp);
     conversations.appendChild(helpButton);
+    var i;
     var j;
-    for (var i in chatlist) {
-        if(search === "" || chatlist[i].members.find(member => member.toLowerCase().includes(search.toLowerCase()))){
-            if(checkIfChatContainsStudent(i, student)){
-                var button = document.createElement("BUTTON");
-                button.className = "convo";
-                for (j = 0; j < chatlist[i].members.length; j++) {
-                    if(!(chatlist[i].members[j] === student))
-                        button.innerHTML += (chatlist[i].members[j] + ", ");
-                }
-                button.innerHTML = button.innerHTML.slice(0, -2)
-                const input = chatlist[i].id;
-                button.addEventListener('click', function(){
-                    updateMessages(input);
-                });
-                conversations.appendChild(button);
-            }
+    for (i = 0; i < chatlist.length; i++) {
+        var button = document.createElement("BUTTON");
+        button.className = "convo";
+        for (j = 0; j < chats[chatlist[i]]["members"].length; j++) {
+            if(!(chats[chatlist[i]]["members"][j] === student))
+                button.innerHTML += (chats[chatlist[i]]["members"][j] + ", ");
         }
+        button.innerHTML = button.innerHTML.slice(0, -2)
+        const input = i;
+        button.addEventListener('click', function(){
+            updateMessages(input);
+        });
+        conversations.appendChild(button);
     }
     var addButton = document.createElement("BUTTON");
     addButton.className = "convo";
@@ -299,25 +298,21 @@ function updateConversations(){
     conversations.appendChild(addButton);
 }
 
-function updateMessages(i){
+function updateMessages(){
     inHelp = false;
     var chatlog = document.getElementById("chat");
     while (chatlog.hasChildNodes())
         chatlog.removeChild(chatlog.lastChild);
-    currchatid = i;
     var j;
-    var top = 0;
-    if(chats[i].length - 50 >=0)
-        top = chats[i].length - 50;
-    for (j = top; j < chats[i].length; j++) {
+    for (j = 0; j < chats[currchatid]["messages"].length; j++) {
         var button = document.createElement("BUTTON");
-        if(student === chats[i][j].sender){
+        if(student === chats[currchatid]["messages"][j]["sender"]){
             button.className = "sent";
         }
         else{
             button.className = "received";
         }
-        button.innerHTML = chats[i][j].sender + ": " + chats[i][j].message;
+        button.innerHTML = chats[currchatid]["messages"][j]["sender"] + ": " + chats[currchatid]["messages"][j]["message"];
         chatlog.appendChild(button);
     }
 }
@@ -368,37 +363,6 @@ function addChat(){
         document.getElementById("search").value = "";
         updateConversations();
     }
-}
-
-function checkDatabaseForChat(list){ //TODO
-    for(var i in chatlist){
-        if(checkIfListsSame(chatlist[i].members, list)
-            return true;
-    }
-    return false;
-}
-
-function checkIfListsSame(a, b){
-    if(a.length == a.length){
-        var temp = true;
-        for(var m in a){
-            if(!b.find(member => member === m)
-               return false;
-        }
-        return true;
-    }
-    return false;
-}
-
-function checkDatabaseForStudent(name){ //TODO
-    return false;
-}
-
-function checkIfChatContainsStudent(i, name){ //TODO
-    if(chatlist[i].members.find(member => member === name)
-        return true;
-    else
-        return false;
 }
 
 // new speech recognition object
