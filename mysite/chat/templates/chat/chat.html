@@ -208,7 +208,7 @@
                 <a class="nav-link" href="">Term Bill</a>
             </li>
             <li class="nav-item {{ analysis_page }}">
-                <a class="nav-link" href="{% url 'chat' %}">Chat</a>
+                <a class="nav-link" href="{% url 'Chat' %}">Chat</a>
             </li>
             <li class="nav-item {{ compare_page }}">
                 <a class="nav-link" href="">Accessibility</a>
@@ -242,7 +242,9 @@
 <script>
 var inHelp = false;
 var student = 'Student';
-var currchat = 0;
+var currchatid = {{ currchatid }};
+var chatlist = {{ conversations }};
+var chats = {{chats|safe}};
 
 var helpRequests = [
     { command: 'help', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
@@ -256,74 +258,61 @@ var helpRequests = [
 let help = [
 ];
 
-var chatlist = [
-    { members: ['Student','Sachin']},
-    { members: ['Student', 'Radhika']}
-];
-
-let chats = [
-    [{ sender: 'Student', message: 'Hey' },
-    { sender: 'Sachin', message: 'Hi' }],
-    [{ sender: 'Radhika', message: 'Hello' },
-    { sender: 'Student', message: 'How are you doing?' }]
-];
-
 window.onload = load();
 
 function load(){
-    console.log("load");
     updateConversations();
-    updateMessages(currchat);
+    updateMessages(currchatid);
 }
 
 function updateConversations(){
-    console.log("updating conversations");
     var conversations = document.getElementById("conversations");
     var search = document.getElementById("search").value;
     while (conversations.hasChildNodes())
         conversations.removeChild(conversations.lastChild);
     var helpButton = document.createElement("BUTTON");
     helpButton.className = "convo";
-    helpButton.innerHTML = "help";
+    helpButton.innerHTML = "Help";
     helpButton.addEventListener('click', updateHelp);
     conversations.appendChild(helpButton);
-    console.log("added help");
     var i;
     var j;
     for (i = 0; i < chatlist.length; i++) {
-        if(search === "" || chatlist[i].members.find(member => member.toLowerCase().includes(search.toLowerCase()))){
-            var button = document.createElement("BUTTON");
-            button.className = "convo";
-            for (j = 0; j < chatlist[i].members.length; j++) {
-                if(!(chatlist[i].members[j] === student))
-                    button.innerHTML += (chatlist[i].members[j] + ", ");
-            }
-            button.innerHTML = button.innerHTML.slice(0, -2)
-            const input = i;
-            button.addEventListener('click', function(){
-                updateMessages(input);
-            });
-            conversations.appendChild(button);
+        var button = document.createElement("BUTTON");
+        button.className = "convo";
+        for (j = 0; j < chats[chatlist[i]]["members"].length; j++) {
+            if(!(chats[chatlist[i]]["members"][j] === student))
+                button.innerHTML += (chats[chatlist[i]]["members"][j] + ", ");
         }
+        button.innerHTML = button.innerHTML.slice(0, -2)
+        const input = i;
+        button.addEventListener('click', function(){
+            updateMessages(input);
+        });
+        conversations.appendChild(button);
     }
+    var addButton = document.createElement("BUTTON");
+    addButton.className = "convo";
+    addButton.innerHTML = "Add";
+    addButton.addEventListener('click', addChat);
+    conversations.appendChild(addButton);
 }
 
-function updateMessages(i){
+function updateMessages(){
     inHelp = false;
     var chatlog = document.getElementById("chat");
     while (chatlog.hasChildNodes())
         chatlog.removeChild(chatlog.lastChild);
-    currchat = i;
     var j;
-    for (j = 0; j < chats[i].length; j++) {
+    for (j = 0; j < chats[currchatid]["messages"].length; j++) {
         var button = document.createElement("BUTTON");
-        if(student === chats[i][j].sender){
+        if(student === chats[currchatid]["messages"][j]["sender"]){
             button.className = "sent";
         }
         else{
             button.className = "received";
         }
-        button.innerHTML = chats[i][j].sender + ": " + chats[i][j].message;
+        button.innerHTML = chats[currchatid]["messages"][j]["sender"] + ": " + chats[currchatid]["messages"][j]["message"];
         chatlog.appendChild(button);
     }
 }
@@ -360,16 +349,18 @@ function sendMessage(){
             updateHelp();
         }
         else{
-            chats[currchat].push({ sender: student, message: message});
-            updateMessages(currchat);
+            chats[currchatid].push({ sender: student, message: message});
+            updateMessages(currchatid);
         }
     }
 }
 
 function addChat(){
     var search = document.getElementById("search").value;
-    if(!(search === "")){
-        chatList.push({members: [student, search]});
+    if(!(search === "") && !checkDatabaseForChat([])){
+        var i = Object.keys(chatlist).length;
+        chatlist[i] = {members: [student, search], id: i};
+        document.getElementById("search").value = "";
         updateConversations();
     }
 }
