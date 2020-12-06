@@ -247,12 +247,37 @@ var chatlist = {{ conversations }};
 var chats = {{chats|safe}};
 
 var helpRequests = [
-    { command: 'help', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
-    { command: 'chat', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
-    { command: 'termbill', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
-    { command: 'webreg', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
-    { command: 'courseplanner', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
-    { command: 'myrutgers', message: 'commands are help, chat, termbill, webreg, courseplanner, myrutgers' },
+    { command: ‘Help', message: ‘Hi ! Welcome ,We can help you with the following options:1)Chat 2) TermBill 3) WebReg 4)CoursePlanner 5)MyRutgers’ },
+    { command: ‘Chat', message: ‘Hi! Click here to start a new conversation or create a new group ‘ },
+    { command: ‘Termbill', message: ‘We can help you with the following options:  1) Registration for Next Term Classes Begins 2) Registration for the next term closes 3) Last Day to Withdraw from All Courses with 100% Refund 4) Other’
+                    { command:’Registration for Next Term Classes Begins ‘,message:’ Nov 20th ’}
+                    { command:’Registration for the next term closes’,message:’Jan 27’}
+                    { command:’Last Day to Withdraw from All Courses with 100% Refund’,message:’Feb 8th’}
+                     { command:’ other ’,message:’You can call (848) 333-2121 for further information’}
+},
+    { command: ‘WebReg', message: ‘We can help you with the following options:  1) Registration for Next Term Classes Begins 2) Registration for the next term closes 3) Last Day to DROP a class(es) WITHOUT a W grade 4) Spring term courses available  5) other’
+
+                    { command:’Registration for Next Term Classes Begins ‘,message:’ Nov 20th ’}
+                    { command:’Registration for the next term closes’,message:’Jan 27’}
+                    { command:’Last Day to DROP a class(es) WITHOUT a W grade’,message:’Jan 26th’}
+                     { command:’Spring term courses available ’,message:’Nov 2nd’}
+                     { command:’ other ’,message:’You can call (848) 222-1111 for further information’}
+},
+    { command: ‘CoursePlanner', message: ‘‘We can help you with the following options:  1) Last Day to DROP a class(es) WITHOUT a W grade 2) Spring term courses available  3) other
+
+
+                    { command:’Last Day to DROP a class(es) WITHOUT a W grade’,message:’Jan 26th’}
+                     { command:’Spring term courses available ’,message:’Nov 2nd’}
+                     { command:’ other ’,message:’You can call (333) 999-6565 for further information’}
+},
+    { command: ‘MyRutgers', message: ‘Welcome,We can help you with the following options: 1)Academic Calendar 2) Contact Information 3)Admission Information 4) other’
+                   { command:’Academic Calendar’,message:’https://registrar.camden.rutgers.edu/academic-calendar-2020-2021’}
+                     { command:’Contact Information’,message:’https://www.rutgers.edu/contact-us’}
+                     { command:’Admission Information’,message:’https://admissions.rutgers.edu’}
+                     { command:’ other ’,message:’You can call (333) 999-6565 for further information’}
+
+
+ },
 ];
 
 let help = [
