@@ -292,7 +292,6 @@
                             H 15:20-16:40 BUS SEC-203</td>
                        <td><button id="8" onclick="addCourse(this.id)" type="button" class="btn btn-dark">Add</button></td>
                      </tr>
-
                    </tbody>
                </table>
             </div>
@@ -415,27 +414,34 @@
             var cell3 = newCourse.insertCell(2);
             cell1.innerHTML = allCourses.rows[buttonID].cells[0].innerHTML;
             cell2.innerHTML = allCourses.rows[buttonID].cells[1].innerHTML;
-            delButtonID = "del" + (newCourse.rowIndex-1);
+            delButtonID = allCourses.rows[buttonID].cells[0].innerHTML;
             cell3.innerHTML = '<button type="button" class="btn btn-danger" id="' + delButtonID + '" onClick="deleteCourse(this.id)">Delete</button>';
-            userCourses.push(new Course(cell1.innerHTML, cell2.innerHTML, allCourses.rows[buttonID-1].cells[2].innerHTML, allCourses.rows[buttonID-1].cells[3].innerHTML));
+            userCourses.push(new Course(cell1.innerHTML, cell2.innerHTML, allCourses.rows[buttonID].cells[2].innerHTML, allCourses.rows[buttonID].cells[4].innerHTML));
             generateSchedules(userCourses);
         }
 
         function deleteCourse(buttonID){
             var addedCourses = document.getElementById("selectedCourses");
-            index = parseInt(buttonID.substring(3));
-            addedCourses.deleteRow(index);
+            for(var i = 0; i < addedCourses.rows.length; i++){
+                if(addedCourses.rows[i].cells[0].innerHTML == buttonID){
+                    addedCourses.deleteRow(i);
+                    userCourses.splice(i,1);
+                    console.log(userCourses);
+                    return;
+                }
+            }
         }
 
         function generateSchedules(newSchedule){
             var timetable = document.getElementById("timetable");
             for(var i = 0; i < userCourses.length; i++){
                 var currCourse = userCourses[i];
-                var timeStr = currCourse.time;
-                var times = timeStr.split("<br>");
+                var timeStr = currCourse.time.replace(/\s+/g,' ');
+                var times = timeStr.replace(/\n/g,'').split("<br>");
                 for(var j = 0; j < times.length; j++){
-                    var dayStr = times[i].split(" ")[0];
-                    var time = times[i].split(" ")[1];
+                    times[j] = times[j].trim();
+                    var dayStr = times[j].split(" ")[0];
+                    var time = times[j].split(" ")[1];
                     var day = 0;
                     switch(dayStr){
                         case "M":
@@ -457,10 +463,8 @@
                             day = 6;
                             break;
                     }
-                    var startTimeStr = timeStr.split("-")[0];
-                    var endTimeStr = timeStr.split("-")[1];
-                    console.log(timeStr);
-                    console.log(endTimeStr);
+                    var startTimeStr = time.split("-")[0];
+                    var endTimeStr = time.split("-")[1];
 
                     var startTime = 0;
                     var endTime = 0;
@@ -488,8 +492,11 @@
                             break;
                     }
 
-                    for(var k = startTime; k < endTime; k++)
-                        timetable.rows[k].cells[day].style.backgroundColor = "blue";
+                    for(var k = startTime; k < endTime; k++){
+                        console.log(k);
+                        console.log(day);
+                        timetable.rows[k].cells[day].style.backgroundColor = "lightskyblue";
+                    }
                 }
             }
         }

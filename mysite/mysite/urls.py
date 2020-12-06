@@ -20,6 +20,7 @@ from myR import views as myviews
 from termbill import views as tbviews
 from webreg import views as wbviews
 from chat import views as chatviews
+from courseplanner import views as cpviews
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -28,7 +29,7 @@ urlpatterns = [
     path('bill/', tbviews.bill, name='Bill'),
     path('register/', wbviews.index, name='Index'),
     path('chat', chatviews.chat, name='Chat'),
-
+    path('courseplanner/', cpviews.planner, name='Planner'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
 ]
