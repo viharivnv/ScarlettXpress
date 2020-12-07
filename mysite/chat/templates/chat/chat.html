@@ -23,18 +23,8 @@
          border: none;
          cursor: pointer;
          width: 100%;
-         height: 75px;
-       }
-       button.search {
-         background-color: #FF8888;
-         color: white;
-         padding: 9px 20px;
-         margin: 8px 0;
-         border: none;
-         cursor: pointer;
-         width: 20%;
-         right: 0;
-         height = 100%;
+         height: fit-content;
+         word-wrap: break-word;
        }
 
        button:hover {
@@ -90,7 +80,7 @@
         right: 0%;
         width:66%;
         top: 173px;
-        bottom: 35px;
+        bottom: 40px;
         border: 3px solid red;
         padding: 5px;
         font: 24px/36px sans-serif;
@@ -113,9 +103,11 @@
         background: maroon;
       }
       input.search[type=text] {
+        position: absolute;
         left: 0;
-        width: 80%;
-        height: 100%;
+        width: 34%;
+        height: 35px;
+        top: 135px;
         border: 2px solid #ddd;
         font-size: 16px;
       }
@@ -140,6 +132,15 @@
          height = 100%;
        }
 
+      h2.title {
+         position: absolute;
+         text-align: center;
+         right: 0%;
+         width:66%;
+         height: 40px;
+         top: 134px;
+       }
+
       button.send {
          background-color: #FF8888;
          color: white;
@@ -159,7 +160,8 @@
          cursor: pointer;
          right: 10px;
          width: 100%;
-         height: 40px;
+         height: fit-content;
+         word-wrap: break-word;
       }
 
       button.received {
@@ -169,7 +171,8 @@
          cursor: pointer;
          left: 10px;
          width: 100%;
-         height: 40px;
+         height: fit-content;
+         word-wrap: break-word;
       }
 
       .wrapper {
@@ -182,7 +185,7 @@
       .wrapper2 {
           position: absolute;
           right: 0;
-          bottom: 0;
+          bottom: 10px;
           height: 40px; /* needs to be defined in this case so that the children know what they should be 100% height of */
           width: 66%;
       }
@@ -199,13 +202,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item {{ predict_page }}">
-                <a class="nav-link" href="">Course Planner<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="">Course Planner</a>
             </li>
             <li class="nav-item {{ predict_page }}">
-                <a class="nav-link" href="">Course Registration<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'Index' %}">Course Registration</a>
             </li>
             <li class="nav-item {{ analysis_page }}">
-                <a class="nav-link" href="">Term Bill</a>
+                <a class="nav-link" href="{% url 'Bill' %}">Term Bill</a>
             </li>
             <li class="nav-item {{ analysis_page }}">
                 <a class="nav-link" href="{% url 'Chat' %}">Chat</a>
@@ -229,63 +232,57 @@
 </nav>
 
 <h1 class="text-center sample">Course Chat</h1>
-<div class="wrapper">
-      <input class="search" type="text" id="search" placeholder="Search..."><button class="search" onclick="updateConversations()">Search</button>
-</div>
+<input class="search" type="text" id="search" placeholder="Search...">
 <div class="conversations" id="conversations">
 </div>
+
+<h2 class="title" id="title"> Hello </h2>
+
 <div class="chat" id="chat"></div>
 <div class="wrapper2">
-  <button class="record" onclick="voiceToText()">Record</button><input class="message" type="text" id="message" placeholder="Message..."><button class="send" onclick="sendMessage()">Send</button>
+    <button class="record" onclick="voiceToText()">Record</button><input class="message" type="text" id="message" name ="send" placeholder="Message..."><button class="send" onclick="sendMessage()">Send</button>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-var inHelp = false;
-var student = 'Student';
-var currchatid = {{ currchatid }};
-var chatlist = {{ conversations }};
-var chats = {{chats|safe}};
+var updating = false;
+var inHelp = 0;
+var help = [];
+var student= "";
+var currchatid = -1;
+var chatlist = [];
+var chats = {};
 
-var helpRequests = [
-    { command: ‘Help', message: ‘Hi ! Welcome ,We can help you with the following options:1)Chat 2) TermBill 3) WebReg 4)CoursePlanner 5)MyRutgers’ },
-    { command: ‘Chat', message: ‘Hi! Click here to start a new conversation or create a new group ‘ },
-    { command: ‘Termbill', message: ‘We can help you with the following options:  1) Registration for Next Term Classes Begins 2) Registration for the next term closes 3) Last Day to Withdraw from All Courses with 100% Refund 4) Other’
-                    { command:’Registration for Next Term Classes Begins ‘,message:’ Nov 20th ’}
-                    { command:’Registration for the next term closes’,message:’Jan 27’}
-                    { command:’Last Day to Withdraw from All Courses with 100% Refund’,message:’Feb 8th’}
-                     { command:’ other ’,message:’You can call (848) 333-2121 for further information’}
-},
-    { command: ‘WebReg', message: ‘We can help you with the following options:  1) Registration for Next Term Classes Begins 2) Registration for the next term closes 3) Last Day to DROP a class(es) WITHOUT a W grade 4) Spring term courses available  5) other’
+const XHR = new XMLHttpRequest();
+XHR.addEventListener( 'error', function(event) {alert( 'Oops! Something went wrong.' );});
+XHR.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      updating = false;
+      load();
+    }
+ };
 
-                    { command:’Registration for Next Term Classes Begins ‘,message:’ Nov 20th ’}
-                    { command:’Registration for the next term closes’,message:’Jan 27’}
-                    { command:’Last Day to DROP a class(es) WITHOUT a W grade’,message:’Jan 26th’}
-                     { command:’Spring term courses available ’,message:’Nov 2nd’}
-                     { command:’ other ’,message:’You can call (848) 222-1111 for further information’}
-},
-    { command: ‘CoursePlanner', message: ‘‘We can help you with the following options:  1) Last Day to DROP a class(es) WITHOUT a W grade 2) Spring term courses available  3) other
+window.onload = update();
 
-
-                    { command:’Last Day to DROP a class(es) WITHOUT a W grade’,message:’Jan 26th’}
-                     { command:’Spring term courses available ’,message:’Nov 2nd’}
-                     { command:’ other ’,message:’You can call (333) 999-6565 for further information’}
-},
-    { command: ‘MyRutgers', message: ‘Welcome,We can help you with the following options: 1)Academic Calendar 2) Contact Information 3)Admission Information 4) other’
-                   { command:’Academic Calendar’,message:’https://registrar.camden.rutgers.edu/academic-calendar-2020-2021’}
-                     { command:’Contact Information’,message:’https://www.rutgers.edu/contact-us’}
-                     { command:’Admission Information’,message:’https://admissions.rutgers.edu’}
-                     { command:’ other ’,message:’You can call (333) 999-6565 for further information’}
-
-
- },
-];
-
-let help = [
-];
-
-window.onload = load();
+function update(){
+    if(!updating){
+        updating = true;
+        var data = new FormData();
+        data.append('update', 0);
+        XHR.open( 'POST', 'context');
+        XHR.setRequestHeader( 'X-CSRFToken', '{{csrf_token}}' );
+        XHR.send(data);
+    }
+}
 
 function load(){
+    var response = JSON.parse(XHR.response);
+    inHelp = response["help"];
+    help = response["helpchat"];
+    student = response["username"];
+    currchatid = response["currchatid"];
+    chatlist = response["conversations"];
+    chats = response["chats"];
     updateConversations();
     updateMessages(currchatid);
 }
@@ -298,23 +295,30 @@ function updateConversations(){
     var helpButton = document.createElement("BUTTON");
     helpButton.className = "convo";
     helpButton.innerHTML = "Help";
-    helpButton.addEventListener('click', updateHelp);
+    helpButton.addEventListener('click', switchHelp);
     conversations.appendChild(helpButton);
     var i;
     var j;
     for (i = 0; i < chatlist.length; i++) {
-        var button = document.createElement("BUTTON");
-        button.className = "convo";
+        var t = "";
+        var include = false;
         for (j = 0; j < chats[chatlist[i]]["members"].length; j++) {
             if(!(chats[chatlist[i]]["members"][j] === student))
-                button.innerHTML += (chats[chatlist[i]]["members"][j] + ", ");
+                t += (chats[chatlist[i]]["members"][j] + ", ");
+                if(chats[chatlist[i]]["members"][j].toLowerCase().includes(search.toLowerCase()))
+                    include = true;
         }
-        button.innerHTML = button.innerHTML.slice(0, -2)
-        const input = i;
-        button.addEventListener('click', function(){
-            updateMessages(input);
-        });
-        conversations.appendChild(button);
+            if(include){
+            var button = document.createElement("BUTTON");
+            button.innerHTML = t;
+            button.className = "convo";
+            button.innerHTML = button.innerHTML.slice(0, -2)
+            const input = chatlist[i];
+            button.addEventListener('click', function(){
+                switchChat(input);
+            });
+            conversations.appendChild(button);
+        }
     }
     var addButton = document.createElement("BUTTON");
     addButton.className = "convo";
@@ -324,70 +328,80 @@ function updateConversations(){
 }
 
 function updateMessages(){
-    inHelp = false;
     var chatlog = document.getElementById("chat");
+    var title = document.getElementById("title");
+    var j;
+    title.innerHTML = "";
     while (chatlog.hasChildNodes())
         chatlog.removeChild(chatlog.lastChild);
-    var j;
-    for (j = 0; j < chats[currchatid]["messages"].length; j++) {
-        var button = document.createElement("BUTTON");
-        if(student === chats[currchatid]["messages"][j]["sender"]){
-            button.className = "sent";
+    if(inHelp == 0){
+        for (j = 0; j < chats[currchatid]["members"].length; j++) {
+            if(!(chats[currchatid]["members"][j] === student))
+                title.innerHTML += (chats[currchatid]["members"][j] + ", ");
         }
-        else{
-            button.className = "received";
+        title.innerHTML = title.innerHTML.slice(0, -2);
+        for (j = 0; j < chats[currchatid]["messages"].length; j++) {
+            var button = document.createElement("BUTTON");
+            if(student === chats[currchatid]["messages"][j]["sender"]){
+                button.className = "sent";
+            }
+            else{
+                button.className = "received";
+            }
+            button.innerHTML = chats[currchatid]["messages"][j]["sender"] + ": " + chats[currchatid]["messages"][j]["message"];
+            chatlog.appendChild(button);
         }
-        button.innerHTML = chats[currchatid]["messages"][j]["sender"] + ": " + chats[currchatid]["messages"][j]["message"];
-        chatlog.appendChild(button);
+    }
+    else{
+        title.innerHTML = "help";
+        for (j = 0; j < help.length; j++) {
+            var button = document.createElement("BUTTON");
+            if(student === help[j].sender){
+                button.className = "sent";
+            }
+            else{
+                button.className = "received";
+            }
+            button.innerHTML = help[j].sender + ": " + help[j].message;
+            chatlog.appendChild(button);
+        }
     }
 }
 
-function updateHelp(){
-    inHelp = true;
-    var chatlog = document.getElementById("chat");
-    while (chatlog.hasChildNodes()) {
-        chatlog.removeChild(chatlog.lastChild);
-    }
-    var j;
-    for (j = 0; j < help.length; j++) {
-        var button = document.createElement("BUTTON");
-        if(student === help[j].sender){
-            button.className = "sent";
-        }
-        else{
-            button.className = "received";
-        }
-        button.innerHTML = help[j].sender + ": " + help[j].message;
-        chatlog.appendChild(button);
-    }
+function switchChat(i){
+    var data = new FormData();
+    data.append('switch', i);
+    XHR.open( 'POST', 'context');
+    XHR.setRequestHeader( 'X-CSRFToken', '{{csrf_token}}' );
+    XHR.send( data );
+}
+
+function switchHelp(){
+    var data = new FormData();
+    data.append('help', '');
+    XHR.open( 'POST', 'context');
+    XHR.setRequestHeader( 'X-CSRFToken', '{{csrf_token}}' );
+    XHR.send( data );
 }
 
 function sendMessage(){
     var message = document.getElementById("message").value;
-    if(!(message === "")){
-        if(inHelp){
-            help.push({ sender: student, message: message});
-            helpRequests.forEach((request) => {
-              if(message.includes(request.command))
-                help.push({ sender: 'helpbot', message: request.message});
-            });
-            updateHelp();
-        }
-        else{
-            chats[currchatid].push({ sender: student, message: message});
-            updateMessages(currchatid);
-        }
-    }
+    var data = new FormData();
+    data.append('send', message);
+    XHR.open( 'POST', 'context');
+    XHR.setRequestHeader( 'X-CSRFToken', '{{csrf_token}}' );
+    XHR.send( data );
+    document.getElementById("message").value = "";
 }
 
 function addChat(){
     var search = document.getElementById("search").value;
-    if(!(search === "") && !checkDatabaseForChat([])){
-        var i = Object.keys(chatlist).length;
-        chatlist[i] = {members: [student, search], id: i};
-        document.getElementById("search").value = "";
-        updateConversations();
-    }
+    var data = new FormData();
+    data.append('add', search);
+    XHR.open( 'POST', 'context');
+    XHR.setRequestHeader( 'X-CSRFToken', '{{csrf_token}}' );
+    XHR.send( data );
+    document.getElementById("search").value = "";
 }
 
 // new speech recognition object
@@ -411,8 +425,11 @@ recognition.onresult = function(event) {
 };
 
 function voiceToText(){
+    console.log("uwu");
     recognition.start();
 }
+
+setInterval(update, 1000);
 </script>
 </body>
 </html>
