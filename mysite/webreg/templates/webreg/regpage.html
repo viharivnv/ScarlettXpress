@@ -131,17 +131,19 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'Bill' %}">Term Bill</a>
               </li>
-              <li class="nav-item {{ analysis_page }}">
-                <a class="nav-link" href="{% url 'Chat' %}">Chat</a>
-              </li>
               <li class="nav-item">
                 <a class="nav-link" href="">Accessibility</a>
               </li>
+
+
           </ul>
           <ul class="navbar-nav ml-auto">
 
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                <a class="nav-link" href="">Update Password</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="">Logout</a>
               </li>
           </ul>
           </div>
@@ -159,7 +161,7 @@
         <div class="card card-body">
 
             <form method="get">
-
+                {{myFilter.form}}
                 <button class="btn btn-primary" type="submit">
                     Search
                 </button>
@@ -280,14 +282,18 @@
             {% if x == '_id' %}
             {% else %}
             <th> {{ y }}<br></th>
+
             {% endif%}
             {% endfor %}
 
         <form method="POST"><th>
             {% csrf_token %}
             {% for x,y in h.items %}
-            {% if x == '_id' %}
-            <input type="submit" name = "Cart-{{ y }}" value = "Register"  />
+            {% if x == '_id' and y in needspn %}
+            <input style="background:red; color:white" type="submit" name = "Spn-{{ y }}" value = "Request SPN"  />
+            {%endif%}
+            {% if x == '_id' and y not in needspn%}
+            <input style="background:blue; color:white" type="submit" name = "Cart-{{ y }}" value = "Register"  />
             {% endif%}
             {% endfor %}
 

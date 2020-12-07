@@ -1,12 +1,8 @@
 from django.shortcuts import render
-import xlrd
-from myR.models import Course
 from datetime import timedelta, datetime
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from django.contrib.auth.decorators import login_required
-
-
+from filters import CourseFilter
 
 #THE VALUES IN CART, REGISTERED, AND CREDITS WILL BE DISPLAYED ON THE PAGE
 context = {
@@ -15,12 +11,13 @@ context = {
     "numincart": 0,
     "numregistered": 0,
     "credits": 0,
-    "coursestaken" : 0
+    "coursestaken" : 0,
+    "needspn": [],
 }
 
 # netid : ss3020
 #print(list(students.find()))
-@login_required
+
 def index(request):
     global context
 
@@ -34,8 +31,7 @@ def index(request):
     #Put the signed in users info in student data
     #studentdata = students.find_one({'netID': 'ss3020'})
 
-    username = request.user.username
-    studentdata = students.find_one({'netID': username})
+    studentdata = students.find_one({'netID': 'nvv13'})
     print(studentdata)
 
 
@@ -45,6 +41,7 @@ def index(request):
     #Fill the Registered section on the website with the already registered classes from the database
     context["credits"] = studentdata["CreditsRegistered"]
     alreadyregistered = studentdata['CoursesRegistered']
+    takenclasses = studentdata["CoursesTaken"]
     print(alreadyregistered)
     for i in alreadyregistered:
         print(i)
@@ -54,6 +51,32 @@ def index(request):
 
     #Get the list of all the available courses
     context["data"] = list(courses.find())[100:200]
+
+    #Create a list of classes that the user can't register for due to Prereqs issue. Save in context["needspn]
+    for i in range(0,len(context["data"])):
+        if len(context["data"][i]["Prerequisites"])>20 and len(context["data"][i]["Prerequisites"])<33:
+            x,y = context["data"][i]["Prerequisites"].split("OR")
+            x = x.replace('(','')
+            x = x.replace(")","")
+            x = x.replace(":","")
+            y = y.replace('(','')
+            y = y.replace(")","")
+            y = y.replace(":","")
+            if x in takenclasses or y in takenclasses:
+                print()
+            else:
+                context['needspn'].append(context["data"][i]["_id"])
+        elif len(context["data"][i]["Prerequisites"])>5 and len(context["data"][i]["Prerequisites"])<13:
+            x = x.replace('(','')
+            x = x.replace(")","")
+            x = x.replace(":","")
+            if x in takenclasses:
+                print()
+            else:
+                context['needspn'].append(context["data"][i]["_id"])
+    print(context["needspn"])
+
+
 
     if request.method == 'POST':
         #EVERY TIME A USER CLICKS ONY BUTTON
@@ -71,7 +94,7 @@ def index(request):
 
             #If THE USER WISHES TO REGISTER CLASSES FROM THE CART
             elif key == "registerclass":
-                if (context["credits"]<19 and context["coursestaken"]<7):  #FIX YHIS FIX THIS FIX THIS FIX THIS
+                if (context["credits"]<19 ):  #FIX YHIS FIX THIS FIX THIS FIX THIS
                     idsofclasstaken = []
                     #BASICALLY STORE THE CART ARRAY IN THE DATABASE
                     #loop for the number of claases in the cart
@@ -82,7 +105,7 @@ def index(request):
                         temp = courses.find_one({'_id': ObjectId(i)})
 
                         #INCREASE THE NUMBER OF CLASSES TAKEN BY THE USER
-                        context["coursestaken"] = context["coursestaken"] + 1
+                        #context["coursestaken"] = context["coursestaken"] + 1
 
                         #INCREASE THE NUMBER OF SEATS IN CLASS BY 1
                         newseats = temp['Enrolled'] + 1
@@ -92,7 +115,8 @@ def index(request):
                         #UPDATE THE PAGE TO UPDATE THE SEATS NUMBER
                         context["data"] = list(courses.find())[100:200]
 
-                        creditss = { "CreditsRegistered" : context["credits"] , "CoursesTaken": context["coursestaken"]}
+                        #creditss = { "CreditsRegistered" : context["credits"] , "CoursesTaken": context["coursestaken"]}
+                        creditss = {"CreditsRegistered": context["credits"]}
                         idsofclasstaken.append(i)
                         #AFTER REGISTERING, DELETE THE CLASS FROM THE CART
                         del context["cart"][i]
@@ -101,11 +125,11 @@ def index(request):
                     duedate = datetime.today() + timedelta(days = 14)
                     print(duedate)
                     dd = { "DueDate": duedate}
-                    students.update_one({'netID': username} , {'$set': dd} )
+                    students.update_one({'netID': 'nvv13'} , {'$set': dd} )
 
                     #UPDATE THE DATABASE FOR THE CREDITS AND CLASSES REGISTERD COLUMNS
-                    students.update_one({'netID': username} , {'$set': creditss} )
-                    students.update_one({'netID': username}, {'$set': taken})
+                    students.update_one({'netID': 'nvv13'} , {'$set': creditss} )
+                    students.update_one({'netID': 'nvv13'}, {'$set': taken})
 
             #WHEN THE USER WISHES TO DROP A COURSE
             elif key[0:4] == "Drop":
@@ -120,10 +144,10 @@ def index(request):
                 context['credits'] = context['credits'] - temp['Credits']
                 deleteclass = { "CreditsRegistered" : context["credits"] , 'CoursesRegistered' : deleteclass }
                 del context['registered'][ids]
-                students.update_one({'netID': username}, {'$set': deleteclass})
+                students.update_one({'netID': 'nvv13'}, {'$set': deleteclass})
 
                 # REDUCE THE NUMBER OF CLASSES TAKEN BY THE USER
-                context["coursestaken"] = context["coursestaken"] - 1
+                #context["coursestaken"] = context["coursestaken"] - 1
 
                 # DECREASE THE NUMBER OF SEATS IN CLASS BY 1
                 newseats = temp['Enrolled'] - 1
@@ -132,10 +156,14 @@ def index(request):
                 courses.update_one({'_id': ObjectId(i)}, {'$set': newseats})
                 # UPDATE THE PAGE TO UPDATE THE SEATS NUMBER
                 context["data"] = list(courses.find())[100:200]
-                creditss = {"CoursesTaken": context["coursestaken"]}
+                #creditss = {"CoursesTaken": context["coursestaken"]}
 
+            elif key[0:3] == "Spn":
+                print()
 
-
+    myFilter = CourseFilter(request.GET, queryset=list(courses.find())[100:200])
+    context["data"] = myFilter.qs
+    context["myFilter"] = myFilter
 
 
 
