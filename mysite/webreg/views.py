@@ -2,7 +2,6 @@ from django.shortcuts import render
 from datetime import timedelta, datetime
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from filters import CourseFilter
 
 #THE VALUES IN CART, REGISTERED, AND CREDITS WILL BE DISPLAYED ON THE PAGE
 context = {
@@ -12,7 +11,7 @@ context = {
     "numregistered": 0,
     "credits": 0,
     "coursestaken" : 0,
-    "needspn": [],
+    "needspn": []
 }
 
 # netid : ss3020
@@ -161,9 +160,8 @@ def index(request):
             elif key[0:3] == "Spn":
                 print()
 
-    myFilter = CourseFilter(request.GET, queryset=list(courses.find())[100:200])
-    context["data"] = myFilter.qs
-    context["myFilter"] = myFilter
+
+
 
 
 
